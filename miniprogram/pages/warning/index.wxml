@@ -1,0 +1,6 @@
+<!--index.wxml-->
+<view class="container">
+
+  <view class="title">告警</view>
+
+</view>

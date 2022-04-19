@@ -1,0 +1,58 @@
+/* pages/warehouse/warehouse.wxss */
+
+.page__bd {
+    margin-top: 200rpx;
+}
+
+.weui-loadmore {
+    width: 65%;
+    margin: 1.5em auto;
+    line-height: 1.6em;
+    font-size: 14px;
+    text-align: center
+}
+
+.weui-loadmore-mid {
+    width: 65%;
+    margin: 1.5em auto;
+    margin-bottom: 90rpx;
+    line-height: 1.6em;
+    font-size: 14px;
+    text-align: center
+}
+
+.weui-loadmore__tips {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 18px;
+    color: var(--weui-FG-1)
+}
+
+.weui-loadmore_line {
+    border-top: 1px solid var(--weui-FG-3);
+    margin-top: 2.4em
+}
+
+.weui-loadmore_line .weui-loadmore__tips {
+    position: relative;
+    top: -.9em;
+    padding: 0 .55em;
+    background-color: var(--weui-BG-1);
+    color: var(--weui-FG-1)
+}
+
+.weui-loadmore_dot .weui-loadmore__tips {
+    padding: 0 .16em
+}
+
+.weui-loadmore_dot .weui-loadmore__tips:before {
+    content: " ";
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background-color: var(--weui-FG-3);
+    display: inline-block;
+    position: relative;
+    vertical-align: 0;
+    top: -.16em
+}

@@ -1,0 +1,18 @@
+<!--pages/warehouse/warehouse.wxml-->
+
+<view class="page" data-weui-theme="{{theme}}">
+	<view class="page__bd">
+		<view class="weui-loadmore weui-loadmore_line weui-loadmore_dot">
+            <text class="weui-loadmore__tips"></text>
+		</view>
+
+        <view class="weui-loadmore-mid">
+			<text class="weui-loadmore__tips">暂无仓库</text>
+            <text class="weui-loadmore__tips">请在用户界面加入或申请仓库</text>
+		</view>
+
+        <view class="weui-loadmore weui-loadmore_line weui-loadmore_dot">
+            <text class="weui-loadmore__tips"></text>
+		</view>
+	</view>
+</view>

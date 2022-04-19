@@ -1,0 +1,53 @@
+<!--pages/welcome/welcome.wxml-->
+
+<view class="page" data-weui-theme="{{theme}}">
+    <view class="userinfo">
+        
+        <block wx:if="{{!hasUserInfo}}">
+            <block wx:if="{{!hasOpenId}}">
+                <image wx:if="{{theme === 'dark'}}" class="onlyImg" src="../../images/userlogin_dark.png"></image>
+                <image wx:else class="onlyImg" src="../../images/userlogin.png"></image>
+            </block>
+
+            <block wx:else>
+                <button class='btn_login' wx:if="{{canIUseGetUserProfile}}" bindtap="getUserProfile">
+                    <image wx:if="{{theme === 'dark'}}" class="btnImg" src="../../images/userlogin_dark.png"></image>
+                    <image wx:else class="btnImg" src="../../images/userlogin.png"></image>
+                </button>
+                <button class='btn_login' wx:else open-type="getUserInfo" bindgetuserinfo="getUserInfo">
+                    <image wx:if="{{theme === 'dark'}}" class="btnImg" src="../../images/userlogin_dark.png"></image>
+                    <image wx:else class="btnImg" src="../../images/userlogin.png"></image>
+                </button>
+            </block>
+        </block>
+
+        <block wx:else>
+            <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+            <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+        </block>
+    </view>
+
+    <view wx:if="{{showLoading}}" class="weui-loading__wrp">
+        <view wx:if="{{theme === 'dark'}}" aria-role="img" aria-label="加载中" class="loading wx_dot_loading wx_dot_loading_white"></view>
+
+        <view wx:else aria-role="img" aria-label="加载中" class="loading wx_dot_loading"></view>
+    </view>
+ 
+    <view class="weui-footer weui-footer_fixed-bottom">
+        <image src="../../images/icon_centered.png" style="width: 15px; height: 15px;"></image>
+        <view class="weui-footer__text">v0.0.1</view>
+        <view class="weui-footer__text">Copyright © 2022 快仓储</view>
+    </view>
+
+    <view aria-role="dialog" aria-modal="true" class="fadeIn" wx:if="{{showOpenIdError}}">
+        <view class="weui-mask"></view>
+        <view class="weui-dialog weui-skin_android">
+            <view class="weui-dialog__bd">
+                登录中发生错误，请点击重试
+            </view>
+            <view class="weui-dialog__ft">
+                <view aria-role="button" class="weui-dialog__btn weui-dialog__btn_primary" bindtap="closeOpenIdError">重试</view>
+            </view>
+        </view>
+    </view>
+</view>

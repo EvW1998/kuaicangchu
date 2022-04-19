@@ -1,0 +1,62 @@
+{
+    "pages": [
+        "pages/inOut/inOut",
+        "pages/warehouse/warehouse",
+        "pages/warning/index",
+        "pages/user/user",
+        "pages/welcome/welcome"
+    ],
+    "window": {
+        "navigationBarTextStyle": "@navigationBarTextStyle",
+        "navigationBarTitleText": "快仓储",
+        "navigationBarBackgroundColor": "@navigationBarBackgroundColor",
+        "backgroundColor": "@backgroundColor"
+    },
+    "tabBar": {
+        "color": "@tabBarColor",
+        "selectedColor": "@tabBarSelectedColor",
+        "borderStyle": "@tabBarBorderStyle",
+        "backgroundColor": "@tabBarBackgroundColor",
+        "list": [
+            {
+                "pagePath": "pages/inOut/inOut",
+                "iconPath": "@iconPathManage",
+                "selectedIconPath": "@selectedIconPathManage",
+                "text": "出入库"
+            },
+            {
+                "pagePath": "pages/warehouse/warehouse",
+                "iconPath": "@iconPathStock",
+                "selectedIconPath": "@selectedIconPathStock",
+                "text": "库存"
+            },
+            {
+                "pagePath": "pages/warning/index",
+                "iconPath": "@iconPathWarning",
+                "selectedIconPath": "@selectedIconPathWarning",
+                "text": "告警"
+            },
+            {
+                "pagePath": "pages/user/user",
+                "iconPath": "@iconPathUser",
+                "selectedIconPath": "@selectedIconPathUser",
+                "text": "用户"
+            }
+        ]
+    },
+    "networkTimeout": {
+        "request": 10000,
+        "connectSocket": 10000,
+        "uploadFile": 10000,
+        "downloadFile": 10000
+    },
+    "cloud": true,
+    "themeLocation": "demo.theme.json",
+    "darkmode": true,
+    "useExtendedLib": {
+        "weui": true
+    },
+    "lazyCodeLoading": "requiredComponents",
+    "sitemapLocation": "sitemap.json",
+    "style": "v2"
+}
