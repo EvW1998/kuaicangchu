@@ -2784,15 +2784,25 @@ a.weui-media-box:active {
   font-size: 10px
 }
 
-. {
-  word-wrap: break-word;
-  -webkit-hyphens: auto;
-  hyphens: auto;
-  overflow-y: auto;
-  padding-top: 4px;
-  padding-bottom: 40px;
-  font-size: 14px;
-  color: var(--weui-FG-0)
+.weui-half-screen-dialog__bd{
+    -webkit-box-flex:1;
+    -webkit-flex:1;
+    flex:1;
+    min-height:0;
+    overflow-y:auto;
+    display:-webkit-box;
+    display:-webkit-flex;
+    display:flex;
+    -webkit-box-orient:vertical;
+    -webkit-box-direction:normal;
+    -webkit-flex-direction:column;
+    flex-direction:column;
+    word-wrap:break-word;
+    -webkit-hyphens:auto;
+    hyphens:auto;
+    padding-bottom:56px;
+    font-size:14px;
+    color:var(--weui-FG-0)
 }
 
 .weui-half-screen-dialog__desc {
