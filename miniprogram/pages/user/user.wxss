@@ -182,3 +182,8 @@
 .weui-footer {
     margin-bottom: 20rpx;
 }
+
+.hover_view {
+    opacity: 0.9;
+    background: var(--weui-BG-0);
+}

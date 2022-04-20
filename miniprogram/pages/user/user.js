@@ -1,5 +1,6 @@
 // pages/user/user.js
 const app = getApp()
+const db_user = 'user' // the database collection of users
 
 Page({
 
@@ -115,30 +116,8 @@ Page({
 
     },
 
-    getUserProfile(e) {
-        console.log('使用 getUserProfile 获取用户头像昵称')
-        // 推荐使用wx.getUserProfile获取用户信息，开发者每次通过该接口获取用户个人信息均需用户确认
-        // 开发者妥善保管用户快速填写的头像昵称，避免重复弹窗
-        wx.getUserProfile({
-            desc: '用于完善会员资料', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
-            success: (res) => {
-                console.log('获取用户信息成功', res)
-                var userInfo_simplified = {
-                    avatarUrl: res.userInfo.avatarUrl,
-                    nickName: res.userInfo.nickName
-                }
-
-                this.setData({
-                    userInfo: userInfo_simplified
-                })
-
-                app.globalData.userInfo = userInfo_simplified
-                wx.setStorageSync('userInfo', userInfo_simplified)
-            },
-            fail: (res) => {
-                console.log('获取用户信息失败', res)
-            }
-        })
+    onRefreshUserInfo() {
+        refreshUserInfo(this)
     },
 
     kindToggle(e) {
@@ -178,3 +157,110 @@ Page({
         wx.setStorageSync('useBluetoothPrinter', {value: e.detail.value})
     }
 })
+
+async function refreshUserInfo(page) {
+    console.log('使用 getUserProfile 获取用户头像昵称')
+
+    var get_result = await getUserInfo()
+
+    if (!get_result.success) {
+        console.log('获取用户信息失败', get_result.result)
+    } else {
+        console.log('获取用户信息成功', get_result.result)
+
+        page.setData({
+            'menu_userInfo.open': false,
+            'menu_currentWarehouse.open': false,
+            'menu_warehouseSetting.open': false
+        })
+        
+        var userInfo_simplified = {
+            avatarUrl: get_result.result.userInfo.avatarUrl,
+            nickName: get_result.result.userInfo.nickName
+        }
+
+        var nickNameChanged = false
+        if (userInfo_simplified.nickName != app.globalData.userInfo.nickName) {
+            nickNameChanged = true
+        }
+
+        page.setData({
+            userInfo: userInfo_simplified
+        })
+        app.globalData.userInfo = userInfo_simplified
+        wx.setStorageSync('userInfo', userInfo_simplified)
+
+        if (nickNameChanged) {
+            wx.showNavigationBarLoading()
+
+            console.log('开始将用户新昵称同步至云端数据库')
+            var update_data = {
+                data: {
+                    user_nickname: userInfo_simplified.nickName
+                }
+            }
+
+            var update_result = await updateUserNickName(update_data)
+            if (update_result.success) {
+                console.log('昵称同步至云端数据库成功', update_result.result)
+            } else {
+                console.log('昵称同步至云端数据库失败', update_result.result)
+            }
+
+            wx.hideNavigationBarLoading()
+        }
+    }
+}
+
+function getUserInfo() {
+    return new Promise((resolve, reject) => {
+        wx.getUserProfile({
+            desc: '用于完善会员资料',
+            success: (res) => {
+                resolve({
+                    success: true,
+                    result: res
+                })
+            },
+            fail: (res) => {
+                resolve({
+                    success: false,
+                    result: res
+                })
+            }
+        })
+    })
+}
+
+function updateUserNickName(user_data) {
+    return new Promise((resolve, reject) => {
+        wx.cloud.callFunction({
+            name: 'databaseAction',
+            data: {
+                type: 'dbUpdateRecord',
+                collection_name: db_user,
+                where_condition: {_id: app.globalData.openid},
+                update_data: user_data
+            },
+            success: res => {
+                if (res.result.stats.updated == 1) {
+                    resolve({
+                        success: true,
+                        result: res
+                    })
+                } else {
+                    resolve({
+                        success: false,
+                        result: res
+                    })
+                }
+            },
+            fail: err => {
+                resolve({
+                    success: false,
+                    result: err
+                })
+            }
+        })
+    })
+}
