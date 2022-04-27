@@ -1,0 +1,49 @@
+<!--pages/updateUserNickname/updateUserNickname.wxml-->
+<view class="page" data-weui-theme="{{theme}}">
+    <view class="weui-form">
+        <view class="weui-form__text-area">
+            <h2 class="weui-form__title">更改昵称</h2>
+            <view class="weui-form__desc">请注意此更改将应用于所有仓库</view>
+        </view>
+
+        <view class="weui-form__control-area">
+            <view class="weui-cells__group weui-cells__group_form">
+                <view class="weui-cells__title">更改用户昵称</view>
+                <view class="weui-cells weui-cells_form">
+                    <view class="weui-cell weui-cell_active {{isWaring ? 'weui-cell_warn' : ''}}">
+                        <view class="weui-cell__hd">
+                            <view class="weui-label">昵称</view>
+                        </view>
+                        <view class="weui-cell__bd weui-flex">
+                            <input
+                                class="weui-input"
+                                type="text"
+                                placeholder="请输入昵称"
+                                placeholder-class="weui-input__placeholder"
+                                value="{{nickname_input}}"
+                                bindinput="onInput_nickName"
+                            />
+                            <view wx:if="{{showClearBtn}}" aria-role="button" class="weui-btn_reset weui-btn_icon weui-btn_input-clear" bindtap="onClear_nickName">
+                                <i class="weui-icon-clear"></i>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+
+        <view class="weui-form__opr-area">
+            <button class="weui-btn" type="primary" disabled="{{!enableSubmit}}" bindtap="onConfirm">确定更改</button>
+        </view>
+    </view>
+
+    <view aria-role="alert" class="fadeIn {{hideLoading ? 'fadeOut' : ''}}" wx:if="{{loading}}">
+		<view class="weui-mask_transparent"></view>
+		<view class="weui-toast">
+			<view class="weui-primary-loading weui-primary-loading_transparent weui-icon_toast">
+                <view class="weui-primary-loading__dot"></view>
+            </view>
+			<view class="weui-toast__content">上传中</view>
+		</view>
+	</view>
+</view>

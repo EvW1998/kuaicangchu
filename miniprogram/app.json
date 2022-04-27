@@ -4,7 +4,8 @@
         "pages/warehouse/warehouse",
         "pages/warning/index",
         "pages/user/user",
-        "pages/welcome/welcome"
+        "pages/welcome/welcome",
+        "pages/updateUserNickname/updateUserNickname"
     ],
     "window": {
         "navigationBarTextStyle": "@navigationBarTextStyle",

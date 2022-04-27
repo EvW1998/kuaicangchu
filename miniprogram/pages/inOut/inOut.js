@@ -1,5 +1,6 @@
 // pages/inOut/inOut.js
 const app = getApp()
+const db_user = 'user' // the database collection of users
 
 Page({
 
@@ -29,6 +30,8 @@ Page({
             wx.redirectTo({
                 url: '../welcome/welcome'
             })
+        } else {
+            refreshUserInfo(this)
         }
     },
 
@@ -98,3 +101,38 @@ Page({
 
     }
 })
+
+async function refreshUserInfo(page) {
+    wx.showNavigationBarLoading()
+    console.log('开始静默同步用户信息')
+
+    var search_result = await searchUser()
+    var cloud_userInfo = search_result.result.data[0]
+    app.globalData.userInfo.nickName = cloud_userInfo.user_nickname
+    wx.setStorageSync('userInfo', app.globalData.userInfo)
+
+    wx.hideNavigationBarLoading()
+    console.log('同步用户信息成功')
+}
+
+function searchUser() {
+    return new Promise((resolve, reject) => {
+        // call dbAdd() cloud function to add the user to the user collection
+        wx.cloud.callFunction({
+            name: 'databaseAction',
+            data: {
+                type: 'dbGetRecord',
+                collection_name: db_user,
+                where_condition: {_id: app.globalData.openid}
+            },
+            success: res => {
+                // return the result if successed
+                resolve(res)
+            },
+            fail: err => {
+                // if failed to use cloud function dbAdd
+                resolve(err)
+            }
+        })
+    })
+}

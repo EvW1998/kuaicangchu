@@ -7,9 +7,8 @@
 		</view>
 
         <view class="weui-loadmore-mid">
-			<text class="weui-loadmore__tips">暂无仓库</text>
-            <text class="weui-loadmore__tips">请在用户界面加入或申请仓库</text>
-		</view>
+            <text class="weui-loadmore__tips">暂无仓库\n\n请在“用户-切换仓库”中\n加入或申请仓库</text>
+        </view>
 
         <view class="weui-loadmore weui-loadmore_line weui-loadmore_dot">
             <text class="weui-loadmore__tips"></text>

@@ -28,8 +28,8 @@
                                 <view class="navigator-arrow"></view>
                             </view>
 
-                            <view class="navigator">
-                                <view class="navigator-text">更改昵称</view>
+                            <view class="navigator" hover-class="hover_view">
+                                <view class="navigator-text" bindtap="onUpdateUserNickname">更改昵称</view>
                                 <view class="navigator-arrow"></view>
                             </view>
 
