@@ -142,6 +142,21 @@ Page({
         })
     },
 
+    onApplyNewWarehouse() {
+        var that = this
+
+        wx.navigateTo({
+            url: '../applyNewWarehouse/applyNewWarehouse',
+            success: function(res) {
+                that.setData({
+                    'menu_userInfo.open': false,
+                    'menu_currentWarehouse.open': false,
+                    'menu_warehouseSetting.open': false
+                })
+            }
+        })
+    },
+
     kindToggle(e) {
         if (e.currentTarget.id == this.data.menu_userInfo.id) {
             this.setData({

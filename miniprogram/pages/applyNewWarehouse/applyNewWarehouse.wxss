@@ -1,0 +1,5 @@
+/* pages/applyNewWarehouse/applyNewWarehouse.wxss */
+
+.weui-label{
+    width: 5em
+}

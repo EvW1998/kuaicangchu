@@ -70,9 +70,9 @@
                                 <view class="navigator weui-cell_link">
                                     <view class="navigator-text">加入仓库</view>
                                 </view>
-                                
-                                <view class="navigator weui-cell_link">
-                                    <view class="navigator-text">申请新仓库</view>
+
+                                <view class="navigator weui-cell_link" hover-class="hover_view">
+                                    <view class="navigator-text" bindtap="onApplyNewWarehouse">申请新仓库</view>
                                 </view>
                             </view>
 

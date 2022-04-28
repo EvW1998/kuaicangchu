@@ -13,7 +13,8 @@ Page({
         showClearBtn: true,
         enableSubmit: false,
         loading: false,
-        hideLoading: false
+        hideLoading: false,
+        theme: 'light'
     },
 
     /**
@@ -21,9 +22,16 @@ Page({
      */
     onLoad(options) {
         this.setData({
+            theme: wx.getSystemInfoSync().theme || 'light',
             user_nickname: app.globalData.userInfo.nickName,
             nickname_input: app.globalData.userInfo.nickName
         })
+    
+        if (wx.onThemeChange) {
+            wx.onThemeChange(({theme}) => {
+                this.setData({theme})
+            })
+        }
     },
 
     /**
@@ -88,7 +96,7 @@ Page({
             nickname_input: '',
             showClearBtn: false,
             enableSubmit: false
-        });
+        })
     },
 
     onConfirm() {
