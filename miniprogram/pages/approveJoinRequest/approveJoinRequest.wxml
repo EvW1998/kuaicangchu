@@ -1,0 +1,35 @@
+<!--pages/approveJoinRequest/approveJoinRequest.wxml-->
+
+<view class="page" data-weui-theme="{{theme}}">
+    <view class="page__hd">
+        <view class="page__title">热敏小票打印测试</view>
+    </view>
+    <view class="page__bd">
+        <view class="weui-cells weui-cells_after-title">
+
+            <view class="weui-cell weui-cell_access" aria-role="option" hover-class="weui-cell_active" bindtap="scanCode">
+                <view aria-role="link" aria-labelledby="js_cell_tl1_bd js_cell_tl1_ft" id="js_cell_tl1_bd" class="weui-cell__bd">扫描二维码连接打印机</view>
+            </view>
+
+            <view class="weui-cell weui-cell_access" aria-role="option" hover-class="weui-cell_active" bindtap="nearconnection">
+                <view aria-role="link" aria-labelledby="js_cell_tl1_bd js_cell_tl1_ft" id="js_cell_tl1_bd" class="weui-cell__bd">靠近连接打印机</view>
+            </view>
+
+            <view class="weui-cell weui-cell_access" aria-role="option" hover-class="weui-cell_active" bindtap="closeble">
+                <view aria-role="link" aria-labelledby="js_cell_tl1_bd js_cell_tl1_ft" id="js_cell_tl1_bd" class="weui-cell__bd">断开连接</view>
+            </view>
+
+            <view class="weui-cell weui-cell_access" aria-role="option" hover-class="weui-cell_active" bindtap="print1">
+                <view aria-role="link" aria-labelledby="js_cell_tl1_bd js_cell_tl1_ft" id="js_cell_tl1_bd" class="weui-cell__bd">测试1</view>
+            </view>
+
+            <view class="weui-cell weui-cell_access" aria-role="option" hover-class="weui-cell_active" bindtap="print2">
+                <view aria-role="link" aria-labelledby="js_cell_tl1_bd js_cell_tl1_ft" id="js_cell_tl1_bd" class="weui-cell__bd">测试2</view>
+            </view>
+
+            <view class="weui-cell weui-cell_access" aria-role="option" hover-class="weui-cell_active" bindtap="print3">
+                <view aria-role="link" aria-labelledby="js_cell_tl1_bd js_cell_tl1_ft" id="js_cell_tl1_bd" class="weui-cell__bd">测试3</view>
+            </view>
+        </view>
+    </view>
+</view>

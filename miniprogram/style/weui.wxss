@@ -660,6 +660,10 @@ input.weui-btn_mini {
   margin-top: 0
 }
 
+.weui-cells__group_form .weui-cells__tips_warn {
+    color: var(--weui-RED)
+}
+
 .weui-cells__tips {
   margin-top: 8px;
   color: var(--weui-FG-1);

@@ -1,5 +1,13 @@
 /* pages/updateUserNickname/updateUserNickname.wxss */
 
 .weui-label{
-    width:3.1em
+    width:4em
+}
+
+.right{
+    text-align:right;
+}
+
+.redColor {
+    color: var(--weui-RED)
 }

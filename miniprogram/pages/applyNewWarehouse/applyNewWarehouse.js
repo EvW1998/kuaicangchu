@@ -1,6 +1,8 @@
 // pages/applyNewWarehouse/applyNewWarehouse.js
+const date = require('../../utils/date.js')
+
 const app = getApp()
-const db_warehouse = 'warehouse' // the database collection of users
+const db_warehouse = 'warehouse' // the database collection of warehouse
 
 Page({
 
@@ -13,8 +15,8 @@ Page({
         showClearBtn_warehouse: false,
         showClearBtn_code: false,
         enableSubmit: false,
-        loading: false,
-        hideLoading: false,
+        isInviteCodeWaring: false,
+        showInviteCodeError: false,
         theme: 'light'
     },
 
@@ -102,7 +104,8 @@ Page({
         this.setData({
             inviteCode: evt.detail.value,
             showClearBtn_code: evt.detail.value.length != 0,
-            enableSubmit: evt.detail.value.length != 0 && this.data.showClearBtn_warehouse
+            enableSubmit: evt.detail.value.length != 0 && this.data.showClearBtn_warehouse,
+            isInviteCodeWaring: false
         })
     },
 
@@ -110,7 +113,8 @@ Page({
         this.setData({
             inviteCode: '',
             showClearBtn_code: false,
-            enableSubmit: false
+            enableSubmit: false,
+            isInviteCodeWaring: false
         })
     },
 
@@ -123,6 +127,12 @@ Page({
                 addWarehouseToDatabase(that)
             }
         })
+    },
+
+    closeInviteCodeError() {
+        this.setData({
+            showInviteCodeError: false
+        })
     }
 })
 
@@ -133,32 +143,62 @@ async function addWarehouseToDatabase(page) {
         mask: true
     })
 
-    var add_warehouse_data = {
-        warehouseName: page.data.warehouseName,
-        inviteCode: page.data.inviteCode,
-        verified: false,
-        applicant_id: app.globalData.openid
-    }
+    console.log('开始检查邀请码是否重复')
+    var search_result = await searchWarehouse(page.data.inviteCode)
 
-    var add_result = await addNewWarehouse(add_warehouse_data)
+    if (search_result.success) {
+        if (search_result.result.result.total == 0) {
+            console.log('无重复邀请码，开始上传')
 
-    if (add_result.success) {
-        console.log('仓库申请提交成功', add_result.result)
-        wx.hideLoading()
-
-        setTimeout(() => {
-            wx.showToast({
-                title: '提交成功',
-                icon: 'success',
-                duration: 2000
-            })
+            var add_warehouse_data = {
+                warehouseName: page.data.warehouseName,
+                inviteCode: page.data.inviteCode,
+                verified: false,
+                applicant_id: app.globalData.openid,
+                apply_date: date.dateInformat(new Date())
+            }
         
-            setTimeout(() => {
-                wx.navigateBack()
-            }, 2500)
-        }, 200)
+            var add_result = await addNewWarehouse(add_warehouse_data)
+        
+            if (add_result.success) {
+                console.log('仓库申请提交成功', add_result.result)
+                wx.hideLoading()
+        
+                setTimeout(() => {
+                    wx.showToast({
+                        title: '提交成功',
+                        icon: 'success',
+                        duration: 2000
+                    })
+                
+                    setTimeout(() => {
+                        wx.navigateBack()
+                    }, 2500)
+                }, 200)
+            } else {
+                console.log('仓库申请提交失败', add_result.result)
+        
+                wx.hideLoading()
+                setTimeout(() => {
+                    wx.showToast({
+                        title: '提交失败',
+                        icon: 'error',
+                        duration: 2000
+                    })
+                }, 200)
+            }
+        } else {
+            console.log('有重复邀请码，上传终止')
+
+            wx.hideLoading()
+            page.setData({
+                enableSubmit: false,
+                isInviteCodeWaring: true,
+                showInviteCodeError: true
+            })
+        }
     } else {
-        console.log('仓库申请提交失败', add_result.result)
+        console.log('仓库申请提交失败', search_result.result)
 
         wx.hideLoading()
         setTimeout(() => {
@@ -169,6 +209,31 @@ async function addWarehouseToDatabase(page) {
             })
         }, 200)
     }
+}
+
+function searchWarehouse(inviteCode) {
+    return new Promise((resolve, reject) => {
+        wx.cloud.callFunction({
+            name: 'databaseAction',
+            data: {
+                type: 'dbCountRecord',
+                collection_name: db_warehouse,
+                where_condition: {inviteCode: inviteCode}
+            },
+            success: res => {
+                resolve({
+                    success: true,
+                    result: res
+                })
+            },
+            fail: err => {
+                resolve({
+                    success: false,
+                    result: res
+                })
+            }
+        })
+    })
 }
 
 function addNewWarehouse(warehouse_data) {

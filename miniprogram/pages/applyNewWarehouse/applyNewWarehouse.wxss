@@ -3,3 +3,11 @@
 .weui-label{
     width: 5em
 }
+
+.right{
+    text-align:right;
+}
+
+.redColor {
+    color: var(--weui-RED)
+}

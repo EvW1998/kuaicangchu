@@ -110,6 +110,7 @@ async function refreshUserInfo(page) {
     var cloud_userInfo = search_result.result.data[0]
     app.globalData.userInfo.nickName = cloud_userInfo.user_nickname
     wx.setStorageSync('userInfo', app.globalData.userInfo)
+    app.globalData.isAdministrator = cloud_userInfo.isAdministrator
 
     wx.hideNavigationBarLoading()
     console.log('同步用户信息成功')

@@ -1,5 +1,6 @@
 // app.js
 const themeListeners = []
+var plugin = requirePlugin("myPlugin")
 
 App({
     globalData: {
@@ -8,6 +9,7 @@ App({
         hasOpenId: false,
         userInfo: {},
         hasUserInfo: false,
+        isAdministrator: false,
         hasWarehouse: false,
         current_warehouseId: '',
         current_warehouseName: '暂无仓库',
@@ -31,6 +33,7 @@ App({
 
         console.log('App Launched')
         console.log('Theme:', this.globalData.theme)
+        plugin.Init('wx2e6ec3bf45eac4e7')
 
         var that = this
 

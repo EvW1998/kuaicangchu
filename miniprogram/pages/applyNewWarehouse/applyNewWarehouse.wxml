@@ -48,6 +48,10 @@
                             </view>
                         </view>
                     </view>
+
+                    <view class="weui-cells__tips weui-cells__tips_warn" style="{{isInviteCodeWaring ? 'display:block' : 'display:none'}}">
+                        <text class="redColor">邀请码重复</text>
+                    </view>
                 </view>
             </view>
         </view>
@@ -58,6 +62,19 @@
 
         <view class="weui-form__opr-area">
             <button class="weui-btn" type="primary" disabled="{{!enableSubmit}}" bindtap="onConfirm">提交申请</button>
+        </view>
+    </view>
+
+    <view aria-role="dialog" aria-modal="true" class="fadeIn" wx:if="{{showInviteCodeError}}">
+        <view class="weui-mask"></view>
+        <view class="weui-dialog weui-skin_android">
+            <view class="weui-dialog__bd">
+                <text>仓库邀请码与已有邀请码重复！</text>
+                <text class="right">\n请修改后重试</text>
+            </view>
+            <view class="weui-dialog__ft">
+                <view aria-role="button" class="weui-dialog__btn weui-dialog__btn_primary" bindtap="closeInviteCodeError">知道了</view>
+            </view>
         </view>
     </view>
 </view>

@@ -9,6 +9,7 @@ Page({
      */
     data: {
         userInfo: {},
+        isAdministrator: false,
         hasWarehouse: false,
         current_warehouseId: '',
         current_warehouseName: '暂无仓库',
@@ -50,6 +51,7 @@ Page({
         this.setData({
             theme: wx.getSystemInfoSync().theme || 'light',
             userInfo: app.globalData.userInfo,
+            isAdministrator: app.globalData.isAdministrator,
             hasWarehouse: app.globalData.hasWarehouse
         })
 
@@ -147,6 +149,36 @@ Page({
 
         wx.navigateTo({
             url: '../applyNewWarehouse/applyNewWarehouse',
+            success: function(res) {
+                that.setData({
+                    'menu_userInfo.open': false,
+                    'menu_currentWarehouse.open': false,
+                    'menu_warehouseSetting.open': false
+                })
+            }
+        })
+    },
+
+    onApproveJoinRequest() {
+        var that = this
+
+        wx.navigateTo({
+            url: '../approveJoinRequest/approveJoinRequest',
+            success: function(res) {
+                that.setData({
+                    'menu_userInfo.open': false,
+                    'menu_currentWarehouse.open': false,
+                    'menu_warehouseSetting.open': false
+                })
+            }
+        })
+    },
+
+    onApproveNewWarehouse() {
+        var that = this
+
+        wx.navigateTo({
+            url: '../approveNewWarehouse/approveNewWarehouse',
             success: function(res) {
                 that.setData({
                     'menu_userInfo.open': false,

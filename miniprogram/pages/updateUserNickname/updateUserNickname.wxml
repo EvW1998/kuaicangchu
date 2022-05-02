@@ -9,11 +9,11 @@
 
         <view class="weui-form__control-area">
             <view class="weui-cells__group weui-cells__group_form">
-                <view class="weui-cells__title">更改用户昵称</view>
+                <view class="weui-cells__title">新昵称</view>
                 <view class="weui-cells weui-cells_form">
                     <view class="weui-cell weui-cell_active">
                         <view class="weui-cell__hd">
-                            <view class="weui-label">昵称</view>
+                            <view class="weui-label">用户昵称</view>
                         </view>
                         <view class="weui-cell__bd weui-flex">
                             <input
@@ -29,12 +29,32 @@
                             </view>
                         </view>
                     </view>
+
+                    <view class="weui-cells__tips weui-cells__tips_warn" style="{{isNickNameWaring ? 'display:block' : 'display:none'}}">
+                        <text class="redColor">昵称重复</text>
+                    </view>
                 </view>
+
+                
             </view>
         </view>
 
         <view class="weui-form__opr-area">
             <button class="weui-btn" type="primary" disabled="{{!enableSubmit}}" bindtap="onConfirm">确定更改</button>
+        </view>
+    </view>
+
+    <view aria-role="dialog" aria-modal="true" class="fadeIn" wx:if="{{showNickNameError}}">
+        <view class="weui-mask"></view>
+        <view class="weui-dialog weui-skin_android">
+            <view class="weui-dialog__hd"><strong class="weui-dialog__title">昵称重复</strong></view>
+            <view class="weui-dialog__bd">
+                <text>新昵称与已有用户昵称重复！</text>
+                <text>\n请修改后重试</text>
+            </view>
+            <view class="weui-dialog__ft">
+                <view aria-role="button" class="weui-dialog__btn weui-dialog__btn_primary" bindtap="closeNickNameError">知道了</view>
+            </view>
         </view>
     </view>
 </view>

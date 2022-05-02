@@ -104,6 +104,15 @@
                                 <view class="navigator-arrow"></view>
                             </view>
 
+                            <view wx:if="{{isAdministrator}}" class="navigator" hover-class="hover_view">
+                                <view class="navigator-text" bindtap="onApproveJoinRequest">审核加入申请</view>
+                                <view class="navigator-arrow"></view>
+                            </view>
+
+                            <view wx:if="{{isAdministrator}}" class="navigator" hover-class="hover_view">
+                                <view class="navigator-text" bindtap="onApproveNewWarehouse">审核仓库申请</view>
+                                <view class="navigator-arrow"></view>
+                            </view>
                         </view>
                     </view>
                 </view>

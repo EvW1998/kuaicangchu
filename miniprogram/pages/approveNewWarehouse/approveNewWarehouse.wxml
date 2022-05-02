@@ -1,0 +1,35 @@
+<!--pages/approveNewWarehouse/approveNewWarehouse.wxml-->
+
+<view class="page" data-weui-theme="{{theme}}">
+    <view class="page__hd">
+        <view class="page__title">审核仓库申请</view>
+        <view class="page__desc">点击通过申请，或长按删除申请</view>
+    </view>
+    <view class="page__bd">
+        <block wx:for="{{apply_date}}" wx:for-item="date" wx:key="*this">
+            <view class="weui-cells__title">{{date}}</view>
+            <view class="weui-cells weui-cells_after-title">
+                <block wx:for="{{warehouse_byDate[date]}}" wx:for-item="w" wx:key="*this">
+                    <view class="weui-cell weui-cell_access" aria-role="option" hover-class="weui-cell_active" bindtap="tabToApprove" id="{{w._id}}">
+                        <view aria-role="link" aria-labelledby="js_cell_tl1_bd js_cell_tl1_ft" id="js_cell_tl1_bd" class="weui-cell__bd">{{w.warehouseName}}</view>
+                        <view class="weui-cell__ft weui-cell__ft_in-access" id="js_cell_tl1_ft" aria-hidden="true"></view>
+                    </view>
+                </block>
+            </view>
+        </block>
+    </view>
+
+    <view aria-role="dialog" aria-modal="true" class="fadeIn" wx:if="{{showApproveConfirm}}">
+        <view class="weui-mask"></view>
+        <view class="weui-dialog weui-skin_android">
+            <view class="weui-dialog__hd"><strong class="weui-dialog__title">申请通过确认</strong></view>
+            <view class="weui-dialog__bd">
+                确认通过仓库“{{warehouse_byId[selectedWarehouse].warehouseName}}”的申请吗？
+            </view>
+            <view class="weui-dialog__ft">
+                <view aria-role="button" class="weui-dialog__btn weui-dialog__btn_default" bindtap="closeApproveConfirm">返回</view>
+                <view aria-role="button" class="weui-dialog__btn weui-dialog__btn_primary" bindtap="confirmApprove">通过申请</view>
+            </view>
+        </view>
+    </view>
+</view>
