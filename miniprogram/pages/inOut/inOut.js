@@ -17,6 +17,7 @@ Page({
      */
     onLoad(options) {
         this.setData({
+            hasWarehouse: app.globalData.hasWarehouse,
             theme: wx.getSystemInfoSync().theme || 'light'
         })
     
@@ -106,11 +107,76 @@ async function refreshUserInfo(page) {
     wx.showNavigationBarLoading()
     console.log('开始静默同步用户信息')
 
-    var search_result = await searchUser()
-    var cloud_userInfo = search_result.result.data[0]
-    app.globalData.userInfo.nickName = cloud_userInfo.user_nickname
-    wx.setStorageSync('userInfo', app.globalData.userInfo)
-    app.globalData.isAdministrator = cloud_userInfo.isAdministrator
+    let search_result = await searchUser()
+    
+    if (search_result.success) {
+        let cloud_userInfo = search_result.result.result.data[0]
+
+        app.globalData.userInfo.nickName = cloud_userInfo.user_nickname
+        wx.setStorageSync('userInfo', app.globalData.userInfo)
+
+        app.globalData.isAdministrator = cloud_userInfo.isAdministrator
+
+        app.globalData.hasWarehouse = cloud_userInfo.hasWarehouse
+        page.setData({
+            hasWarehouse: cloud_userInfo.hasWarehouse
+        })
+        wx.setStorageSync('hasWarehouse', {value: cloud_userInfo.hasWarehouse})
+
+        if (cloud_userInfo.hasWarehouse) {
+            var warehouseID_list = Object.keys(cloud_userInfo.warehouses)
+            var warehouse_result = await searchWarehouse(warehouseID_list)
+            if (warehouse_result.success) {
+                let warehouse_raw = warehouse_result.result.result.data
+                let warehouseID = {}
+                for (let i = 0; i < warehouse_raw.length; i++) {
+                    warehouseID[warehouse_raw[i]._id] = warehouse_raw[i].warehouseName
+                }
+                app.globalData.warehouseList = warehouseID
+                wx.setStorageSync('warehouseList', warehouseID)
+
+                if (app.globalData.current_warehouseId == '') {
+                    console.log('本地无warehouse信息，初始化')
+                    app.globalData.current_warehouseId = warehouseID_list[0]
+                    app.globalData.current_warehouseName = warehouseID[warehouseID_list[0]]
+                    wx.setStorageSync('lastWarehouse', {
+                        id: warehouseID_list[0],
+                        name: warehouseID[warehouseID_list[0]]
+                    })
+
+                    let title = '快仓储 - ' + app.globalData.current_warehouseName
+                    wx.setNavigationBarTitle({
+                        title,
+                        success() {
+                            console.log('设置标题成功', '快仓储 - ' + app.globalData.current_warehouseName)
+                        },
+                        fail(err) {
+                            console.log('设置标题失败', err)
+                        }
+                    })
+                } else if (app.globalData.current_warehouseName != warehouseID[app.globalData.current_warehouseId]) {
+                    console.log('仓库名称有更改，更新中')
+
+                    app.globalData.current_warehouseName = warehouseID[app.globalData.current_warehouseId]
+                    wx.setStorageSync('lastWarehouse', {
+                        id: app.globalData.current_warehouseId,
+                        name: app.globalData.current_warehouseName
+                    })
+
+                    let title = '快仓储 - ' + app.globalData.current_warehouseName
+                    wx.setNavigationBarTitle({
+                        title,
+                        success() {
+                            console.log('设置标题成功', '快仓储 - ' + app.globalData.current_warehouseName)
+                        },
+                        fail(err) {
+                            console.log('设置标题失败', err)
+                        }
+                    })
+                }
+            }
+        }
+    }
 
     wx.hideNavigationBarLoading()
     console.log('同步用户信息成功')
@@ -118,7 +184,6 @@ async function refreshUserInfo(page) {
 
 function searchUser() {
     return new Promise((resolve, reject) => {
-        // call dbAdd() cloud function to add the user to the user collection
         wx.cloud.callFunction({
             name: 'databaseAction',
             data: {
@@ -126,13 +191,48 @@ function searchUser() {
                 collection_name: db_user,
                 where_condition: {_id: app.globalData.openid}
             },
-            success: res => {
-                // return the result if successed
-                resolve(res)
+            success: res => {       
+                if (res.result.data.length == 1) {
+                    resolve({
+                        success: true,
+                        result: res
+                    })
+                } else {
+                    resolve({
+                        success: false,
+                        result: res
+                    })
+                }
             },
             fail: err => {
-                // if failed to use cloud function dbAdd
-                resolve(err)
+                resolve({
+                    success: false,
+                    result: err
+                })
+            }
+        })
+    })
+}
+
+function searchWarehouse(warehouseID_list) {
+    return new Promise((resolve, reject) => {
+        wx.cloud.callFunction({
+            name: 'databaseAction',
+            data: {
+                type: 'dbGetWarehouseList',
+                warehouse_list: warehouseID_list
+            },
+            success: res => {       
+                resolve({
+                    success: true,
+                    result: res
+                })
+            },
+            fail: err => {
+                resolve({
+                    success: false,
+                    result: err
+                })
             }
         })
     })

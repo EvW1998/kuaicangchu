@@ -58,7 +58,7 @@
                                             <view class="weui-cell__ft">
                                                 <radio
                                                     class="weui-check"
-                                                    value="{{item.name}}"
+                                                    value="{{item.id}}"
                                                     checked="{{item.checked}}"
                                                 />
                                                 <i class="weui-icon-checked"></i>
@@ -67,8 +67,8 @@
                                     </radio-group>
                                 </block>
 
-                                <view class="navigator weui-cell_link">
-                                    <view class="navigator-text">加入仓库</view>
+                                <view class="navigator weui-cell_link" hover-class="hover_view">
+                                    <view class="navigator-text" bindtap="onApplyJoinWarehouse">加入仓库</view>
                                 </view>
 
                                 <view class="navigator weui-cell_link" hover-class="hover_view">

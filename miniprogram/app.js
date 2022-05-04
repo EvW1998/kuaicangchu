@@ -11,6 +11,8 @@ App({
         hasUserInfo: false,
         isAdministrator: false,
         hasWarehouse: false,
+        warehouseList: {},
+        warehouseOwner: false,
         current_warehouseId: '',
         current_warehouseName: '暂无仓库',
         hasWarehouseChanged: false,
@@ -78,18 +80,34 @@ App({
             }
         })
 
-        /** 
-        wx.setStorage({
-            key: "key",
-            data: {
-                value: 'hello',
-                num: 2
+        console.log('开始读取本地lastWarehouse')
+        wx.getStorage ({
+            key: "lastWarehouse",
+            success(res_lastWarehouse) {
+                if (res_lastWarehouse.data) {
+                    that.globalData.current_warehouseId = res_lastWarehouse.data.id
+                    that.globalData.current_warehouseName = res_lastWarehouse.data.name
+                }
+                console.log('本地lastWarehouse读取成功', res_lastWarehouse.data)
             },
-            success(res) {
-                console.log('setStorage', res)
+            fail(err_lastWarehouse) {
+                console.log('本地lastWarehouse读取失败', err_lastWarehouse)
             }
         })
-        */
+
+        console.log('开始读取本地warehouseList')
+        wx.getStorage ({
+            key: "warehouseList",
+            success(res_warehouseList) {
+                if (res_warehouseList.data) {
+                    that.globalData.warehouseList = res_warehouseList.data
+                }
+                console.log('本地warehouseList读取成功', res_warehouseList.data)
+            },
+            fail(err_warehouseList) {
+                console.log('本地warehouseList读取失败', err_warehouseList)
+            }
+        })
     },
 
     onThemeChange({ theme }) {

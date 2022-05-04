@@ -1,0 +1,61 @@
+<!--pages/applyJoinWarehouse/applyJoinWarehouse.wxml-->
+
+<view class="page" data-weui-theme="{{theme}}">
+    <view class="weui-form">
+        <view class="weui-form__text-area">
+            <h2 class="weui-form__title">加入仓库</h2>
+            <view class="weui-form__desc">请输入仓库邀请码</view>
+        </view>
+
+        <view class="weui-form__control-area">
+            <view class="weui-cells__group weui-cells__group_form">
+                <view class="weui-cells__title">仓库信息</view>
+                <view class="weui-cells weui-cells_form">
+                    <view class="weui-cell weui-cell_active">
+                        <view class="weui-cell__hd">
+                            <view class="weui-label">仓库邀请码</view>
+                        </view>
+                        <view class="weui-cell__bd weui-flex">
+                            <input
+                                class="weui-input"
+                                type="number"
+                                placeholder="请输入邀请码"
+                                placeholder-class="weui-input__placeholder"
+                                value="{{inviteCode}}"
+                                bindinput="onInput_code"
+                            />
+                            <view wx:if="{{showClearBtn_code}}" aria-role="button" class="weui-btn_reset weui-btn_icon weui-btn_input-clear" bindtap="onClear_code">
+                                <i class="weui-icon-clear"></i>
+                            </view>
+                        </view>
+                    </view>
+
+                    <view class="weui-cells__tips weui-cells__tips_warn" style="{{isInviteCodeWaring ? 'display:block' : 'display:none'}}">
+                        <text class="redColor">邀请码不存在</text>
+                    </view>
+                </view>
+            </view>
+        </view>
+
+        <view class="weui-form__tips-area">
+			<view class="weui-form__tips">提交申请后请留意审核结果通知</view>
+		</view>
+
+        <view class="weui-form__opr-area">
+            <button class="weui-btn" type="primary" disabled="{{!enableSubmit}}" bindtap="onConfirm">申请加入</button>
+        </view>
+    </view>
+
+    <view aria-role="dialog" aria-modal="true" class="fadeIn" wx:if="{{showInviteCodeError}}">
+        <view class="weui-mask"></view>
+        <view class="weui-dialog weui-skin_android">
+            <view class="weui-dialog__bd">
+                <text>输入的仓库邀请码不存在！</text>
+                <text class="right">\n请修改后重试</text>
+            </view>
+            <view class="weui-dialog__ft">
+                <view aria-role="button" class="weui-dialog__btn weui-dialog__btn_primary" bindtap="closeInviteCodeError">知道了</view>
+            </view>
+        </view>
+    </view>
+</view>

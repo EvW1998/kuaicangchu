@@ -56,9 +56,29 @@ Page({
         })
 
         if (app.globalData.hasWarehouse) {
+            let warehouseID_list = Object.keys(app.globalData.warehouseList)
+            let warehouse = []
+
+            for (let i = 0; i < warehouseID_list.length; i++) {
+                if (warehouseID_list[i] == app.globalData.current_warehouseId) {
+                    warehouse.push({
+                        name: app.globalData.warehouseList[warehouseID_list[i]],
+                        id: warehouseID_list[i],
+                        checked: true
+                    })
+                } else {
+                    warehouse.push({
+                        name: app.globalData.warehouseList[warehouseID_list[i]],
+                        id: warehouseID_list[i],
+                        checked: false
+                    })
+                }
+            }
+
             this.setData({
                 current_warehouseId: app.globalData.current_warehouseId,
-                current_warehouseName: app.globalData.current_warehouseName
+                current_warehouseName: app.globalData.current_warehouseName,
+                warehouses: warehouse
             })
         }
     
@@ -144,6 +164,21 @@ Page({
         })
     },
 
+    onApplyJoinWarehouse() {
+        var that = this
+
+        wx.navigateTo({
+            url: '../applyJoinWarehouse/applyJoinWarehouse',
+            success: function(res) {
+                that.setData({
+                    'menu_userInfo.open': false,
+                    'menu_currentWarehouse.open': false,
+                    'menu_warehouseSetting.open': false
+                })
+            }
+        })
+    },
+
     onApplyNewWarehouse() {
         var that = this
 
@@ -212,7 +247,28 @@ Page({
     },
 
     warehouseChange(e) {
-        console.log('切换仓库:', e.detail.value)
+        let newWarehouseId = e.detail.value
+        let newWarehouseName = app.globalData.warehouseList[newWarehouseId]
+        console.log('切换仓库:', newWarehouseId, newWarehouseName)
+
+        app.globalData.current_warehouseId = newWarehouseId
+        app.globalData.current_warehouseName = newWarehouseName
+        app.globalData.hasWarehouseChanged = true
+        this.setData({
+            current_warehouseId: newWarehouseId,
+            current_warehouseName: newWarehouseName,
+            'menu_currentWarehouse.open': false
+        })
+        wx.setStorageSync('lastWarehouse', {
+            id: newWarehouseId,
+            name: newWarehouseName
+        })
+
+        wx.showToast({
+            title: '仓库切换成功',
+            icon: 'success',
+            duration: 2000
+        })
     },
 
     bluetoothPrinterChange(e) {

@@ -8,7 +8,8 @@
         "pages/updateUserNickname/updateUserNickname",
         "pages/applyNewWarehouse/applyNewWarehouse",
         "pages/approveNewWarehouse/approveNewWarehouse",
-        "pages/approveJoinRequest/approveJoinRequest"
+        "pages/approveJoinRequest/approveJoinRequest",
+        "pages/applyJoinWarehouse/applyJoinWarehouse"
     ],
     "window": {
         "navigationBarTextStyle": "@navigationBarTextStyle",

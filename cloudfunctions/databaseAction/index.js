@@ -2,6 +2,7 @@ const dbAddRecord = require('./dbAddRecord/index');
 const dbCountRecord = require('./dbCountRecord/index');
 const dbGetRecord = require('./dbGetRecord/index');
 const dbGetUnverifiedWarehouse = require('./dbGetUnverifiedWarehouse/index');
+const dbGetWarehouseList = require('./dbGetWarehouseList/index');
 const dbUpdateRecord = require('./dbUpdateRecord/index');
 
 // 云函数入口函数
@@ -15,6 +16,8 @@ exports.main = async (event, context) => {
             return await dbGetRecord.main(event, context);
         case 'dbGetUnverifiedWarehouse':
             return await dbGetUnverifiedWarehouse.main(event, context);
+        case 'dbGetWarehouseList':
+            return await dbGetWarehouseList.main(event, context);
         case 'dbUpdateRecord':
             return await dbUpdateRecord.main(event, context);
     }

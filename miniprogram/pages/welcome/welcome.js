@@ -239,7 +239,7 @@ async function addUserToDatabase(page) {
             _id: app.globalData.openid,
             user_nickname: app.globalData.userInfo.nickName,
             hasWarehouse: false,
-            warehouses: [],
+            warehouses: {},
             isAdministrator: false
         }
     
