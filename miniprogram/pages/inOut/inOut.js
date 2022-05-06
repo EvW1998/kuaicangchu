@@ -130,7 +130,10 @@ async function refreshUserInfo(page) {
                 let warehouse_raw = warehouse_result.result.result.data
                 let warehouseID = {}
                 for (let i = 0; i < warehouse_raw.length; i++) {
-                    warehouseID[warehouse_raw[i]._id] = warehouse_raw[i].warehouseName
+                    warehouseID[warehouse_raw[i]._id] = {
+                        name: warehouse_raw[i].warehouseName,
+                        owner: cloud_userInfo.warehouses[warehouse_raw[i]._id].owner
+                    }
                 }
                 app.globalData.warehouseList = warehouseID
                 wx.setStorageSync('warehouseList', warehouseID)
@@ -138,10 +141,12 @@ async function refreshUserInfo(page) {
                 if (app.globalData.current_warehouseId == '') {
                     console.log('本地无warehouse信息，初始化')
                     app.globalData.current_warehouseId = warehouseID_list[0]
-                    app.globalData.current_warehouseName = warehouseID[warehouseID_list[0]]
+                    app.globalData.current_warehouseName = warehouseID[warehouseID_list[0]].name
+                    app.globalData.warehouseOwner = warehouseID[warehouseID_list[0]].owner
                     wx.setStorageSync('lastWarehouse', {
                         id: warehouseID_list[0],
-                        name: warehouseID[warehouseID_list[0]]
+                        name: warehouseID[warehouseID_list[0]].name,
+                        owner: warehouseID[warehouseID_list[0]].owner
                     })
 
                     let title = '快仓储 - ' + app.globalData.current_warehouseName
@@ -154,13 +159,15 @@ async function refreshUserInfo(page) {
                             console.log('设置标题失败', err)
                         }
                     })
-                } else if (app.globalData.current_warehouseName != warehouseID[app.globalData.current_warehouseId]) {
+                } else if (app.globalData.current_warehouseName != warehouseID[app.globalData.current_warehouseId].name) {
                     console.log('仓库名称有更改，更新中')
 
-                    app.globalData.current_warehouseName = warehouseID[app.globalData.current_warehouseId]
+                    app.globalData.current_warehouseName = warehouseID[app.globalData.current_warehouseId].name
+                    app.globalData.warehouseOwner = warehouseID[app.globalData.current_warehouseId].owner
                     wx.setStorageSync('lastWarehouse', {
                         id: app.globalData.current_warehouseId,
-                        name: app.globalData.current_warehouseName
+                        name: app.globalData.current_warehouseName,
+                        owner: app.globalData.warehouseOwner
                     })
 
                     let title = '快仓储 - ' + app.globalData.current_warehouseName
@@ -172,6 +179,14 @@ async function refreshUserInfo(page) {
                         fail(err) {
                             console.log('设置标题失败', err)
                         }
+                    })
+                } else {
+                    app.globalData.warehouseOwner = warehouseID[app.globalData.current_warehouseId].owner
+
+                    wx.setStorageSync('lastWarehouse', {
+                        id: app.globalData.current_warehouseId,
+                        name: app.globalData.current_warehouseName,
+                        owner: app.globalData.warehouseOwner
                     })
                 }
             }

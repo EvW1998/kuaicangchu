@@ -13,6 +13,7 @@ Page({
         hasWarehouse: false,
         current_warehouseId: '',
         current_warehouseName: '暂无仓库',
+        warehouseOwner: false,
         useBluetoothPrinter: false,
         
         menu_userInfo: {
@@ -62,13 +63,13 @@ Page({
             for (let i = 0; i < warehouseID_list.length; i++) {
                 if (warehouseID_list[i] == app.globalData.current_warehouseId) {
                     warehouse.push({
-                        name: app.globalData.warehouseList[warehouseID_list[i]],
+                        name: app.globalData.warehouseList[warehouseID_list[i]].name,
                         id: warehouseID_list[i],
                         checked: true
                     })
                 } else {
                     warehouse.push({
-                        name: app.globalData.warehouseList[warehouseID_list[i]],
+                        name: app.globalData.warehouseList[warehouseID_list[i]].name,
                         id: warehouseID_list[i],
                         checked: false
                     })
@@ -78,7 +79,8 @@ Page({
             this.setData({
                 current_warehouseId: app.globalData.current_warehouseId,
                 current_warehouseName: app.globalData.current_warehouseName,
-                warehouses: warehouse
+                warehouses: warehouse,
+                warehouseOwner: app.globalData.warehouseOwner
             })
         }
     
@@ -248,20 +250,23 @@ Page({
 
     warehouseChange(e) {
         let newWarehouseId = e.detail.value
-        let newWarehouseName = app.globalData.warehouseList[newWarehouseId]
+        let newWarehouseName = app.globalData.warehouseList[newWarehouseId].name
         console.log('切换仓库:', newWarehouseId, newWarehouseName)
 
         app.globalData.current_warehouseId = newWarehouseId
         app.globalData.current_warehouseName = newWarehouseName
+        app.globalData.warehouseOwner = app.globalData.warehouseList[newWarehouseId].owner
         app.globalData.hasWarehouseChanged = true
         this.setData({
             current_warehouseId: newWarehouseId,
             current_warehouseName: newWarehouseName,
+            warehouseOwner: app.globalData.warehouseOwner,
             'menu_currentWarehouse.open': false
         })
         wx.setStorageSync('lastWarehouse', {
             id: newWarehouseId,
-            name: newWarehouseName
+            name: newWarehouseName,
+            owner: app.globalData.warehouseOwner
         })
 
         wx.showToast({

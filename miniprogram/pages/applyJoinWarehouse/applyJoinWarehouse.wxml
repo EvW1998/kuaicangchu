@@ -31,7 +31,7 @@
                     </view>
 
                     <view class="weui-cells__tips weui-cells__tips_warn" style="{{isInviteCodeWaring ? 'display:block' : 'display:none'}}">
-                        <text class="redColor">邀请码不存在</text>
+                        <text class="redColor">{{warningText}}</text>
                     </view>
                 </view>
             </view>
@@ -50,11 +50,25 @@
         <view class="weui-mask"></view>
         <view class="weui-dialog weui-skin_android">
             <view class="weui-dialog__bd">
-                <text>输入的仓库邀请码不存在！</text>
-                <text class="right">\n请修改后重试</text>
+                <text>{{errorText}}</text>
+                <text class="right">\n请修改邀请码后重试</text>
             </view>
             <view class="weui-dialog__ft">
                 <view aria-role="button" class="weui-dialog__btn weui-dialog__btn_primary" bindtap="closeInviteCodeError">知道了</view>
+            </view>
+        </view>
+    </view>
+
+    <view aria-role="dialog" aria-modal="true" class="fadeIn" wx:if="{{showJoinConfirm}}">
+        <view class="weui-mask"></view>
+        <view class="weui-dialog weui-skin_android">
+            <view class="weui-dialog__hd"><strong class="weui-dialog__title">申请加入仓库确认</strong></view>
+            <view class="weui-dialog__bd">
+                {{joinText}}
+            </view>
+            <view class="weui-dialog__ft">
+                <view aria-role="button" class="weui-dialog__btn weui-dialog__btn_default" bindtap="closeJoinConfirm">返回</view>
+                <view aria-role="button" class="weui-dialog__btn weui-dialog__btn_primary" bindtap="confirmJoin">确认</view>
             </view>
         </view>
     </view>
