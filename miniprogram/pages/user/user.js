@@ -12,7 +12,7 @@ Page({
         isAdministrator: false,
         hasWarehouse: false,
         current_warehouseId: '',
-        current_warehouseName: '暂无仓库',
+        current_warehouseName: '点击加入仓库',
         warehouseOwner: false,
         useBluetoothPrinter: false,
         
@@ -24,7 +24,7 @@ Page({
 
         menu_currentWarehouse: {
             id: 'currentWarehouse',
-            name: '切换仓库',
+            name: '选择仓库',
             open: false
         },
 
