@@ -93,17 +93,6 @@
 
                     <view class="kind-list-item-bd {{menu_warehouseSetting.open ? 'kind-list-item-bd-show' : ''}}">
                         <view class="navigator-box {{menu_warehouseSetting.open ? 'navigator-box-show' : ''}}">
-
-                            <view class="navigator">
-                                <view class="navigator-text">目录设置</view>
-                                <view class="navigator-arrow"></view>
-                            </view>
-
-                            <view class="navigator">
-                                <view class="navigator-text">默认保质期</view>
-                                <view class="navigator-arrow"></view>
-                            </view>
-
                             <view wx:if="{{warehouseOwner}}" class="navigator" hover-class="hover_view">
                                 <view class="navigator-text" bindtap="onApproveJoinRequest">审核加入申请</view>
                                 <view class="navigator-arrow"></view>
@@ -116,17 +105,6 @@
                         </view>
                     </view>
                 </view>
-
-                <view class="kind-list-item">
-                    <label class="weui-cell_access">
-                        <view id="{{menu_buletoothSetting.id}}" class="kind-list-item-hd {{menu_buletoothSetting.open ? 'kind-list-item-hd-show' : ''}}" bindtap="kindToggle">
-                
-                                <view class="kind-list-text" id="js_switch">{{menu_buletoothSetting.name}}</view>
-                                <switch checked="{{useBluetoothPrinter}}" bindchange="bluetoothPrinterChange"/>
-                        </view>
-                    </label>
-                </view>
-
             </view>
         </view>
     </view>

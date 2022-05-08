@@ -216,7 +216,7 @@ async function approveRequest(page, applicant_id) {
         let message = {}
         message.openId = applicant_id
         message.approveDate = date.formatTime(new Date())
-        message.content = '申请加入“' + page.data.current_warehouseName + '”仓库已通过'
+        message.content = '申请加入“' + page.data.warehouseName + '”仓库已通过'
         message.more = '重新打开小程序即可查看'
 
         let request_data = {}

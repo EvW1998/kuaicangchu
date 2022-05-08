@@ -1,6 +1,6 @@
 // app.js
 const themeListeners = []
-var plugin = requirePlugin("myPlugin")
+var printer = requirePlugin("bluetoothPrinter")
 
 App({
     globalData: {
@@ -16,7 +16,8 @@ App({
         current_warehouseId: '',
         current_warehouseName: '暂无仓库',
         hasWarehouseChanged: false,
-        useBluetoothPrinter: false
+        enablePrinter: false,
+        printer: {}
     },
 
     onLaunch: function () {
@@ -35,7 +36,9 @@ App({
 
         console.log('App Launched')
         console.log('Theme:', this.globalData.theme)
-        plugin.Init('wx2e6ec3bf45eac4e7')
+
+        printer.Init('wx2e6ec3bf45eac4e7')
+        this.globalData.printer = printer
 
         var that = this
 
@@ -87,6 +90,7 @@ App({
                 if (res_lastWarehouse.data) {
                     that.globalData.current_warehouseId = res_lastWarehouse.data.id
                     that.globalData.current_warehouseName = res_lastWarehouse.data.name
+                    that.globalData.enablePrinter = res_lastWarehouse.data.enablePrinter
                 }
                 console.log('本地lastWarehouse读取成功', res_lastWarehouse.data)
             },

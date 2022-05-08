@@ -14,7 +14,6 @@ Page({
         current_warehouseId: '',
         current_warehouseName: '点击加入仓库',
         warehouseOwner: false,
-        useBluetoothPrinter: false,
         
         menu_userInfo: {
             id: 'userInfo',
@@ -33,12 +32,6 @@ Page({
         menu_warehouseSetting: {
             id: 'warehouseSetting',
             name: '仓库设置',
-            open: false
-        },
-
-        menu_buletoothSetting: {
-            id: 'buletoothSetting',
-            name: '使用蓝牙打印机',
             open: false
         },
 
@@ -256,6 +249,7 @@ Page({
         app.globalData.current_warehouseId = newWarehouseId
         app.globalData.current_warehouseName = newWarehouseName
         app.globalData.warehouseOwner = app.globalData.warehouseList[newWarehouseId].owner
+        app.globalData.enablePrinter = false
         app.globalData.hasWarehouseChanged = true
         this.setData({
             current_warehouseId: newWarehouseId,
@@ -266,7 +260,8 @@ Page({
         wx.setStorageSync('lastWarehouse', {
             id: newWarehouseId,
             name: newWarehouseName,
-            owner: app.globalData.warehouseOwner
+            owner: app.globalData.warehouseOwner,
+            enablePrinter: false
         })
 
         wx.showToast({
@@ -274,17 +269,6 @@ Page({
             icon: 'success',
             duration: 2000
         })
-    },
-
-    bluetoothPrinterChange(e) {
-        console.log('使用蓝牙打印机设置: ', e.detail.value)
-
-        this.setData({
-            useBluetoothPrinter: e.detail.value
-        })
-
-        app.globalData.useBluetoothPrinter = e.detail.value
-        wx.setStorageSync('useBluetoothPrinter', {value: e.detail.value})
     }
 })
 

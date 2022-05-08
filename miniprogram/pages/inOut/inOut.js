@@ -1,6 +1,11 @@
 // pages/inOut/inOut.js
+const bluetoothPrinter = require('../../utils/bluetoothPrinter.js')
+
 const app = getApp()
 const db_user = 'user' // the database collection of users
+
+//var plugin = requirePlugin("myPlugin")
+var printer = app.globalData.printer
 
 Page({
 
@@ -9,6 +14,24 @@ Page({
      */
     data: {
         hasWarehouse: false,
+        current_warehouseName: '',
+        printerConnected: false,
+        showBluetoothError: false,
+        menu_in: {
+            id: 'in',
+            name: '登记入库',
+            open: false
+        },
+        menu_out: {
+            id: 'out',
+            name: '扫码出库',
+            open: false
+        },
+        menu_buletoothSetting: {
+            id: 'buletoothSetting',
+            name: '使用蓝牙打印机',
+            open: false
+        },
         theme: 'light'
     },
 
@@ -16,8 +39,11 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad(options) {
+        //plugin.Init('wx2e6ec3bf45eac4e7')
+
         this.setData({
             hasWarehouse: app.globalData.hasWarehouse,
+            current_warehouseName: app.globalData.current_warehouseName,
             theme: wx.getSystemInfoSync().theme || 'light'
         })
     
@@ -47,10 +73,22 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow() {
+        if (app.globalData.hasWarehouse) {
+            this.setData({
+                "menu_buletoothSetting.open": app.globalData.enablePrinter
+            })
+        }
+
         if (app.globalData.hasWarehouseChanged) {
             this.setData({
-                hasWarehouse: app.globalData.hasWarehouse
+                hasWarehouse: app.globalData.hasWarehouse,
+                current_warehouseName: app.globalData.current_warehouseName,
+                "menu_buletoothSetting.open": app.globalData.enablePrinter
             })
+
+            if (app.globalData.enablePrinter) {
+                this.refreshBluetoothConnection()
+            }
 
             var title = '快仓储 - ' + app.globalData.current_warehouseName
 
@@ -100,6 +138,84 @@ Page({
      */
     onShareAppMessage() {
 
+    },
+
+    warehouse_import() {
+        console.log('import')   
+    },
+
+    warehouse_export() {
+        console.log('export')
+    },
+
+    bluetoothPrinterChange(e) {
+        console.log('使用蓝牙打印机设置: ', e.detail.value)
+
+        this.setData({
+            "menu_buletoothSetting.open": e.detail.value
+        })
+
+        let lastWarehouse = wx.getStorageSync('lastWarehouse')
+        lastWarehouse.enablePrinter = e.detail.value
+        wx.setStorageSync('lastWarehouse', lastWarehouse)
+
+        if (e.detail.value) {
+            this.refreshBluetoothConnection()
+        }
+    },
+    
+    onScanConnect() {
+        let that = this
+
+        wx.getBluetoothAdapterState({
+            success (res) {
+                if (res.available) {
+                    printer.scanCode()
+                } else {
+                    that.setData({
+                        showBluetoothError: true
+                    })
+                }
+            },
+            fail: (err)=> {
+                console.log('检查蓝牙状态失败', err)
+                that.setData({
+                    showBluetoothError: true
+                })
+            }
+        })
+    },
+
+    closeBluetoothError() {
+        this.setData({
+            showBluetoothError: false
+        })
+    },
+
+    onPrintTestPage() {
+        bluetoothPrinter.printTestPage(printer)
+    },
+
+    refreshBluetoothConnection() {
+        var that = this
+
+        setTimeout(function () {
+            let mconnectionstate = printer.getconnectionstate()
+
+            if (mconnectionstate && !that.data.printerConnected) {
+                that.setData({
+                    printerConnected: mconnectionstate
+                })
+            } else if (!mconnectionstate && that.data.printerConnected) {
+                that.setData({
+                    printerConnected: mconnectionstate
+                })
+            }
+            
+            if (that.data.menu_buletoothSetting.open) {
+                that.refreshBluetoothConnection()
+            }
+        }, 1000);
     }
 })
 
@@ -146,7 +262,12 @@ async function refreshUserInfo(page) {
                     wx.setStorageSync('lastWarehouse', {
                         id: warehouseID_list[0],
                         name: warehouseID[warehouseID_list[0]].name,
-                        owner: warehouseID[warehouseID_list[0]].owner
+                        owner: warehouseID[warehouseID_list[0]].owner,
+                        enablePrinter: false
+                    })
+
+                    page.setData({
+                        current_warehouseName: app.globalData.current_warehouseName
                     })
 
                     let title = '快仓储 - ' + app.globalData.current_warehouseName
@@ -167,7 +288,12 @@ async function refreshUserInfo(page) {
                     wx.setStorageSync('lastWarehouse', {
                         id: app.globalData.current_warehouseId,
                         name: app.globalData.current_warehouseName,
-                        owner: app.globalData.warehouseOwner
+                        owner: app.globalData.warehouseOwner,
+                        enablePrinter: page.data.menu_buletoothSetting.open
+                    })
+
+                    page.setData({
+                        current_warehouseName: app.globalData.current_warehouseName
                     })
 
                     let title = '快仓储 - ' + app.globalData.current_warehouseName
@@ -186,7 +312,8 @@ async function refreshUserInfo(page) {
                     wx.setStorageSync('lastWarehouse', {
                         id: app.globalData.current_warehouseId,
                         name: app.globalData.current_warehouseName,
-                        owner: app.globalData.warehouseOwner
+                        owner: app.globalData.warehouseOwner,
+                        enablePrinter: page.data.menu_buletoothSetting.open
                     })
                 }
             }
