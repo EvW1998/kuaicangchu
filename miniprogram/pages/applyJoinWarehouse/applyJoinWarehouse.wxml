@@ -23,6 +23,7 @@
                                 placeholder-class="weui-input__placeholder"
                                 value="{{inviteCode}}"
                                 bindinput="onInput_code"
+                                focus="{{true}}"
                             />
                             <view wx:if="{{showClearBtn_code}}" aria-role="button" class="weui-btn_reset weui-btn_icon weui-btn_input-clear" bindtap="onClear_code">
                                 <i class="weui-icon-clear"></i>

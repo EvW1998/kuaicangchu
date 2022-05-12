@@ -33,6 +33,11 @@
                                 <view class="navigator-arrow"></view>
                             </view>
 
+                            <view class="navigator" hover-class="hover_view">
+                                <view class="navigator-text" bindtap="onClearLocalStorage">清除本地缓存</view>
+                                <view class="navigator-arrow"></view>
+                            </view>
+
                         </view>
                     </view>
                 </view>
@@ -72,13 +77,14 @@
                                 </view>
 
                                 <view class="navigator weui-cell_link" hover-class="hover_view">
-                                    <view class="navigator-text" bindtap="onApplyNewWarehouse">申请新仓库</view>
+                                    <view class="navigator-text" bindtap="onApplyNewWarehouse">新建仓库</view>
+                                </view>
+
+                                <view wx:if="{{isAdministrator}}" class="navigator" hover-class="hover_view">
+                                    <view class="navigator-text" bindtap="onApproveNewWarehouse">审核仓库申请</view>
+                                    <view class="navigator-arrow"></view>
                                 </view>
                             </view>
-
-                            
-
-
                         </view>
                     </view>
                 </view>
@@ -93,13 +99,13 @@
 
                     <view class="kind-list-item-bd {{menu_warehouseSetting.open ? 'kind-list-item-bd-show' : ''}}">
                         <view class="navigator-box {{menu_warehouseSetting.open ? 'navigator-box-show' : ''}}">
-                            <view wx:if="{{warehouseOwner}}" class="navigator" hover-class="hover_view">
-                                <view class="navigator-text" bindtap="onApproveJoinRequest">审核加入申请</view>
+                            <view class="navigator" hover-class="hover_view">
+                                <view class="navigator-text" bindtap="onLocationManage">存放位置管理</view>
                                 <view class="navigator-arrow"></view>
                             </view>
 
-                            <view wx:if="{{isAdministrator}}" class="navigator" hover-class="hover_view">
-                                <view class="navigator-text" bindtap="onApproveNewWarehouse">审核仓库申请</view>
+                            <view wx:if="{{warehouseOwner}}" class="navigator" hover-class="hover_view">
+                                <view class="navigator-text" bindtap="onApproveJoinRequest">审核加入申请</view>
                                 <view class="navigator-arrow"></view>
                             </view>
                         </view>
@@ -113,5 +119,19 @@
         <image src="../../images/icon_centered.png" style="width: 15px; height: 15px;"></image>
         <view class="weui-footer__text">v0.0.1</view>
         <view class="weui-footer__text">Copyright © 2022 快仓储</view>
+    </view>
+
+    <view aria-role="dialog" aria-modal="true" class="fadeIn" wx:if="{{showClearConfirm}}">
+        <view class="weui-mask"></view>
+        <view class="weui-dialog weui-skin_android">
+            <view class="weui-dialog__hd"><strong class="weui-dialog__title">清除本地缓存确认</strong></view>
+            <view class="weui-dialog__bd">
+                确认要清除全部本地缓存吗？
+            </view>
+            <view class="weui-dialog__ft">
+                <view aria-role="button" class="weui-dialog__btn weui-dialog__btn_default" bindtap="closeClearConfirm">返回</view>
+                <view aria-role="button" class="weui-dialog__btn weui-dialog__btn_primary" bindtap="confirmClear">确认</view>
+            </view>
+        </view>
     </view>
 </view>

@@ -4,7 +4,6 @@ const bluetoothPrinter = require('../../utils/bluetoothPrinter.js')
 const app = getApp()
 const db_user = 'user' // the database collection of users
 
-//var plugin = requirePlugin("myPlugin")
 var printer = app.globalData.printer
 
 Page({
@@ -16,6 +15,7 @@ Page({
         hasWarehouse: false,
         current_warehouseName: '',
         printerConnected: false,
+        checkPrinter: false,
         showBluetoothError: false,
         menu_in: {
             id: 'in',
@@ -86,10 +86,6 @@ Page({
                 "menu_buletoothSetting.open": app.globalData.enablePrinter
             })
 
-            if (app.globalData.enablePrinter) {
-                this.refreshBluetoothConnection()
-            }
-
             var title = '快仓储 - ' + app.globalData.current_warehouseName
 
             wx.setNavigationBarTitle({
@@ -103,13 +99,22 @@ Page({
                 }
             })
         }
+
+        if (app.globalData.enablePrinter) {
+            this.setData({
+                checkPrinter: true
+            })
+            this.refreshBluetoothConnection()
+        }
     },
 
     /**
      * 生命周期函数--监听页面隐藏
      */
     onHide() {
-
+        this.setData({
+            checkPrinter: false
+        })
     },
 
     /**
@@ -151,8 +156,11 @@ Page({
     bluetoothPrinterChange(e) {
         console.log('使用蓝牙打印机设置: ', e.detail.value)
 
+        app.globalData.enablePrinter = e.detail.value
+
         this.setData({
-            "menu_buletoothSetting.open": e.detail.value
+            "menu_buletoothSetting.open": e.detail.value,
+            checkPrinter: e.detail.value
         })
 
         let lastWarehouse = wx.getStorageSync('lastWarehouse')
@@ -193,7 +201,7 @@ Page({
     },
 
     onPrintTestPage() {
-        bluetoothPrinter.printTestPage(printer)
+        bluetoothPrinter.printItemTestPage(printer)
     },
 
     refreshBluetoothConnection() {
@@ -212,7 +220,7 @@ Page({
                 })
             }
             
-            if (that.data.menu_buletoothSetting.open) {
+            if (that.data.checkPrinter) {
                 that.refreshBluetoothConnection()
             }
         }, 1000);

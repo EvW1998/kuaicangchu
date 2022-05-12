@@ -1,0 +1,106 @@
+<!--pages/addLocation/addLocation.wxml-->
+
+<view class="page" data-weui-theme="{{theme}}">
+    <view class="weui-form">
+        <view class="weui-form__text-area">
+            <h2 class="weui-form__title">添加新的存储位置</h2>
+            <view class="weui-form__desc">请输入位置名称，并确认是否打印标签</view>
+        </view>
+
+        <view class="weui-form__control-area">
+            <view class="weui-cells__group weui-cells__group_form">
+                <view class="weui-cells__title">存储位置</view>
+                <view class="weui-cells weui-cells_form">
+                    <view class="weui-cell weui-cell_active">
+                        <view class="weui-cell__hd">
+                            <view class="weui-label">位置名称</view>
+                        </view>
+                        <view class="weui-cell__bd weui-flex">
+                            <input
+                                class="weui-input"
+                                type="text"
+                                placeholder="请在此处输入位置名称"
+                                placeholder-class="weui-input__placeholder"
+                                value="{{location_name}}"
+                                bindinput="onInput_name"
+                                focus="{{true}}"
+                            />
+                            <view wx:if="{{showClearBtn_name}}" aria-role="button" class="weui-btn_reset weui-btn_icon weui-btn_input-clear" bindtap="onClear_name">
+                                <i class="weui-icon-clear"></i>
+                            </view>
+                        </view>
+                    </view>
+
+                    <view class="weui-cells__tips weui-cells__tips_warn" style="{{isNameWaring ? 'display:block' : 'display:none'}}">
+                        <text class="redColor">位置名称重复</text>
+                    </view>
+                </view>
+            </view>
+            <view class="weui-cells__group weui-cells__group_form">
+                <view class="weui-cells__title">打印存储位置标签</view>
+                <view class="weui-cells weui-cells_form">
+                    <label class="weui-cell weui-cell_active weui-cell_switch" bindtap="switchPrinter">
+                        <view class="weui-cell__bd">是否打印位置标签</view>
+                        <view class="weui-cell__ft">
+                            <view class="weui-switch-cp">
+                                <checkbox class="weui-switch-cp__input" checked="{{enablePrinter}}" />
+                                <view class="weui-switch-cp__box"></view>
+                            </view>
+                        </view>
+                    </label>
+
+                    <block wx:if="{{enablePrinter}}">
+                        <label class="weui-cell weui-cell_active" bindtap="switchPrinter">
+                            <view class="weui-cell__bd">
+                                <text>打印机连接状态: </text>
+                                <text wx:if="{{!printerConnected}}" class="redColor">未连接</text>
+                                <text wx:else>已连接</text>
+                            </view>
+                        </label>
+
+                        <block wx:if="{{printerConnected}}">
+                            <label class="weui-cell weui-cell_active" bindtap="onPrintTestPage">
+                                <view class="weui-cell__bd">点击打印测试页</view>
+                            </label>
+                        </block>
+                        <block wx:else>
+                            <label class="weui-cell weui-cell_active" bindtap="onScanConnect">
+                                <view class="weui-cell__bd">扫一扫连接打印机</view>
+                            </label>
+                        </block>
+                    </block>
+                </view>
+            </view>
+        </view>
+
+        <view class="weui-form__opr-area">
+            <button class="weui-btn" type="primary" disabled="{{!enableSubmit}}" bindtap="onConfirm">添加新位置</button>
+        </view>
+    </view>
+
+    <view aria-role="dialog" aria-modal="true" class="fadeIn" wx:if="{{showBluetoothError}}">
+        <view class="weui-mask"></view>
+        <view class="weui-dialog weui-skin_android">
+            <view class="weui-dialog__bd">
+                <text>请打开蓝牙开关后重试！</text>
+            </view>
+            <view class="weui-dialog__ft">
+                <view aria-role="button" class="weui-dialog__btn weui-dialog__btn_primary" bindtap="closeBluetoothError">知道了</view>
+            </view>
+        </view>
+    </view>
+
+    <view aria-role="dialog" aria-modal="true" class="fadeIn" wx:if="{{showNameError}}">
+        <view class="weui-mask"></view>
+        <view class="weui-dialog weui-skin_android">
+            <view class="weui-dialog__hd"><strong class="weui-dialog__title redColor">错误</strong></view>
+            <view class="weui-dialog__bd">
+                <text>存储位置名称重复！</text>
+                <text>\n请修改后重试。</text>
+            </view>
+            <view class="weui-dialog__ft">
+                <view aria-role="button" class="weui-dialog__btn weui-dialog__btn_primary" bindtap="closeNameError">知道了</view>
+            </view>
+        </view>
+    </view>
+</view>

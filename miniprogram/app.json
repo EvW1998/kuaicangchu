@@ -9,7 +9,9 @@
         "pages/applyNewWarehouse/applyNewWarehouse",
         "pages/approveNewWarehouse/approveNewWarehouse",
         "pages/approveJoinRequest/approveJoinRequest",
-        "pages/applyJoinWarehouse/applyJoinWarehouse"
+        "pages/applyJoinWarehouse/applyJoinWarehouse",
+        "pages/locationManage/locationManage",
+        "pages/addLocation/addLocation"
     ],
     "window": {
         "navigationBarTextStyle": "@navigationBarTextStyle",

@@ -1,0 +1,13 @@
+/* pages/addLocation/addLocation.wxss */
+
+.weui-label{
+    width: 4em
+}
+
+.right{
+    text-align:right;
+}
+
+.redColor {
+    color: var(--weui-RED)
+}

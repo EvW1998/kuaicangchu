@@ -23,6 +23,7 @@
                                 placeholder-class="weui-input__placeholder"
                                 value="{{warehouseName}}"
                                 bindinput="onInput_warehouse"
+                                focus="{{true}}"
                             />
                             <view wx:if="{{showClearBtn_warehouse}}" aria-role="button" class="weui-btn_reset weui-btn_icon weui-btn_input-clear" bindtap="onClear_warehouse">
                                 <i class="weui-icon-clear"></i>

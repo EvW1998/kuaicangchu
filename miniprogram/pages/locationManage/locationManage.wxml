@@ -1,0 +1,25 @@
+<page-meta root-font-size="system"/>
+
+<view class="page" data-weui-theme="{{theme}}" data-weui-mode="{{mode}}">
+	<view class="weui-bottom-fixed-opr-page">
+		<view class="weui-bottom-fixed-opr-page__content">
+            <view class="page__hd">
+                <view class="page__title">存放位置管理</view>
+                <view class="page__desc">添加新位置，或向左滑动来修改已有位置</view>
+            </view>
+            <view class="page__bd">
+                <mp-cells ext-class="my-cells">
+                    <block wx:for="{{locations}}" wx:for-item="l" wx:key="*this">
+                        <mp-slideview show="{{false}}" buttons="{{slideButtons}}" bindbuttontap="slideButtonTap" id="{{l}}">
+                            <mp-cell value="{{location_byId[l].locationName}}" footer="<<<"></mp-cell>
+                        </mp-slideview>
+                    </block>
+                </mp-cells>
+            </view>
+		</view>
+
+		<view class="weui-bottom-fixed-opr" id="js_opr">
+			<view class="weui-btn weui-btn_primary" id="js_btn" aria-role="button" bindtap="onAddLocation">添加新的存储位置</view>
+		</view>
+	</view>
+</view>

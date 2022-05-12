@@ -35,6 +35,7 @@ Page({
             open: false
         },
 
+        showClearConfirm: false,
         theme: 'light'
     },
 
@@ -159,6 +160,45 @@ Page({
         })
     },
 
+    onClearLocalStorage() {
+        this.setData({
+            showClearConfirm: true
+        })
+    },
+
+    closeClearConfirm() {
+        this.setData({
+            showClearConfirm: false
+        })
+    },
+
+    confirmClear() {
+        this.setData({
+            showClearConfirm: false
+        })
+
+        wx.showLoading({
+            title: '清除中',
+            mask: true
+        })
+
+        wx.clearStorageSync()
+
+        wx.hideLoading()
+
+        this.setData({
+            'menu_userInfo.open': false
+        })
+
+        setTimeout(() => {
+            wx.showToast({
+                title: '清除完成',
+                icon: 'success',
+                duration: 2000
+            })
+        }, 200)
+    },
+
     onApplyJoinWarehouse() {
         var that = this
 
@@ -232,7 +272,7 @@ Page({
                 'menu_currentWarehouse.open': !this.data.menu_currentWarehouse.open,
                 'menu_warehouseSetting.open': false
             })
-        } else if (e.currentTarget.id == this.data.menu_warehouseSetting.id){
+        } else if (e.currentTarget.id == this.data.menu_warehouseSetting.id && this.data.hasWarehouse){
             this.setData({
                 'menu_userInfo.open': false,
                 'menu_currentWarehouse.open': false,
@@ -268,6 +308,21 @@ Page({
             title: '仓库切换成功',
             icon: 'success',
             duration: 2000
+        })
+    },
+
+    onLocationManage() {
+        var that = this
+
+        wx.navigateTo({
+            url: '../locationManage/locationManage',
+            success: function(res) {
+                that.setData({
+                    'menu_userInfo.open': false,
+                    'menu_currentWarehouse.open': false,
+                    'menu_warehouseSetting.open': false
+                })
+            }
         })
     }
 })
