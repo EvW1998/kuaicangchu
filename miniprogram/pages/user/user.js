@@ -324,6 +324,21 @@ Page({
                 })
             }
         })
+    },
+
+    onCategoryManage() {
+        var that = this
+
+        wx.navigateTo({
+            url: '../categoryManage/viewCategory/viewCategory',
+            success: function(res) {
+                that.setData({
+                    'menu_userInfo.open': false,
+                    'menu_currentWarehouse.open': false,
+                    'menu_warehouseSetting.open': false
+                })
+            }
+        })
     }
 })
 

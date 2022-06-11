@@ -100,6 +100,11 @@
                     <view class="kind-list-item-bd {{menu_warehouseSetting.open ? 'kind-list-item-bd-show' : ''}}">
                         <view class="navigator-box {{menu_warehouseSetting.open ? 'navigator-box-show' : ''}}">
                             <view class="navigator" hover-class="hover_view">
+                                <view class="navigator-text" bindtap="onCategoryManage">物品种类管理</view>
+                                <view class="navigator-arrow"></view>
+                            </view>
+
+                            <view class="navigator" hover-class="hover_view">
                                 <view class="navigator-text" bindtap="onLocationManage">存放位置管理</view>
                                 <view class="navigator-arrow"></view>
                             </view>

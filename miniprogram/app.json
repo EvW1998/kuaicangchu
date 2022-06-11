@@ -11,7 +11,9 @@
         "pages/approveJoinRequest/approveJoinRequest",
         "pages/applyJoinWarehouse/applyJoinWarehouse",
         "pages/locationManage/locationManage",
-        "pages/addLocation/addLocation"
+        "pages/addLocation/addLocation",
+        "pages/categoryManage/viewCategory/viewCategory",
+        "pages/categoryManage/addCategory/addCategory"
     ],
     "window": {
         "navigationBarTextStyle": "@navigationBarTextStyle",

@@ -1,0 +1,58 @@
+<!--pages/categoryManage/addCategory/addCategory.wxml-->
+<view class="page" data-weui-theme="{{theme}}">
+    <view class="weui-form">
+        <view class="weui-form__text-area">
+            <h2 class="weui-form__title">添加新的物品主分类</h2>
+            <view class="weui-form__desc">请输入主分类名称</view>
+        </view>
+
+        <view class="weui-form__control-area">
+            <view class="weui-cells__group weui-cells__group_form">
+                <view class="weui-cells__title">物品主分类</view>
+                <view class="weui-cells weui-cells_form">
+                    <view class="weui-cell weui-cell_active">
+                        <view class="weui-cell__hd">
+                            <view class="weui-label">主分类名称</view>
+                        </view>
+                        <view class="weui-cell__bd weui-flex">
+                            <input
+                                class="weui-input"
+                                type="text"
+                                placeholder="请在此处输入分类名称"
+                                placeholder-class="weui-input__placeholder"
+                                value="{{category_name}}"
+                                bindinput="onInput_name"
+                                focus="{{true}}"
+                            />
+                            <view wx:if="{{showClearBtn_name}}" aria-role="button" class="weui-btn_reset weui-btn_icon weui-btn_input-clear" bindtap="onClear_name">
+                                <i class="weui-icon-clear"></i>
+                            </view>
+                        </view>
+                    </view>
+
+                    <view class="weui-cells__tips weui-cells__tips_warn" style="{{isNameWaring ? 'display:block' : 'display:none'}}">
+                        <text class="redColor">主分类名称重复</text>
+                    </view>
+                </view>
+            </view>
+        </view>
+
+        <view class="weui-form__opr-area">
+            <button class="weui-btn" type="primary" disabled="{{!enableSubmit}}" bindtap="onConfirm">添加新的主分类</button>
+        </view>
+    </view>
+
+    <view aria-role="dialog" aria-modal="true" class="fadeIn" wx:if="{{showNameError}}">
+        <view class="weui-mask"></view>
+        <view class="weui-dialog weui-skin_android">
+            <view class="weui-dialog__hd"><strong class="weui-dialog__title redColor">错误</strong></view>
+            <view class="weui-dialog__bd">
+                <text>物品主分类名称重复！</text>
+                <text>\n请修改后重试。</text>
+            </view>
+            <view class="weui-dialog__ft">
+                <view aria-role="button" class="weui-dialog__btn weui-dialog__btn_primary" bindtap="closeNameError">知道了</view>
+            </view>
+        </view>
+    </view>
+</view>

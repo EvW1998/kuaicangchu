@@ -1,0 +1,44 @@
+<!--pages/categoryManage/viewCategory/viewCategory.wxml-->
+<page-meta root-font-size="system"/>
+
+<view class="page" data-weui-theme="{{theme}}">
+	<view class="page__hd">
+        <view class="page__title">物品种类管理</view>
+        <view class="page__desc">种类可分为主分类和子分类</view>
+    </view>
+
+    <view class="index">
+        <view class="index-bd">
+            <view class="kind-list">
+
+                <view class="kind-list-item">
+                    <label class="weui-cell_access">
+                        <view id="{{menu_userInfo.id}}" class="kind-list-item-hd {{menu_userInfo.open ? 'kind-list-item-hd-show' : ''}}" bindtap="kindToggle">
+                            <view class="kind-list-text">{{menu_userInfo.name}}</view>
+                            <view class="arrow_downward"></view>
+                        </view>
+                    </label>
+
+                    <view class="kind-list-item-bd {{menu_userInfo.open ? 'kind-list-item-bd-show' : ''}}">
+                        <view class="navigator-box {{menu_userInfo.open ? 'navigator-box-show' : ''}}">
+
+                            <view class="navigator" hover-class="hover_view">
+                                <view class="navigator-text" bindtap="onAddSubCategory">新增子分类</view>
+                                <view class="navigator-arrow"></view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+
+                <view class="kind-list-item">
+                    <label class="weui-cell_access">
+                        <view class="kind-list-item-hd" bindtap="onAddCategory" hover-class="hover_view">
+                            <view class="kind-list-text weui-cell_link">新增主分类</view>
+                        </view>
+                    </label>
+                </view>
+            </view>
+        </view>
+    </view>
+
+</view>

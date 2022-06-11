@@ -200,18 +200,6 @@ Page({
         confirmAddLocation(this)
     },
 
-    closeInviteCodeError() {
-        this.setData({
-            showInviteCodeError: false
-        })
-    },
-
-    closeJoinConfirm() {
-        this.setData({
-            showJoinConfirm: false
-        })
-    },
-
     refreshBluetoothConnection() {
         var that = this
 
@@ -330,7 +318,10 @@ function checkLocationName(location_name) {
             data: {
                 type: 'dbCountRecord',
                 collection_name: 'location',
-                where_condition: {locationName: location_name}
+                where_condition: {
+                    locationName: location_name,
+                    warehouse_id: app.globalData.current_warehouseId
+                }
             },
             success: res => {
                 resolve({

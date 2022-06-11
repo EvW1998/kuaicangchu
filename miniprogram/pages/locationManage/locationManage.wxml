@@ -1,6 +1,6 @@
 <page-meta root-font-size="system"/>
 
-<view class="page" data-weui-theme="{{theme}}" data-weui-mode="{{mode}}">
+<view class="page" data-weui-theme="{{theme}}">
 	<view class="weui-bottom-fixed-opr-page">
 		<view class="weui-bottom-fixed-opr-page__content">
             <view class="page__hd">

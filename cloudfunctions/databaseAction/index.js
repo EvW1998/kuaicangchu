@@ -1,5 +1,6 @@
 const dbAddRecord = require('./dbAddRecord/index');
 const dbCountRecord = require('./dbCountRecord/index');
+const dbGetCategory = require('./dbGetCategory/index');
 const dbGetJoinRequest = require('./dbGetJoinRequest/index');
 const dbGetLocation = require('./dbGetLocation/index');
 const dbGetRecord = require('./dbGetRecord/index');
@@ -15,6 +16,8 @@ exports.main = async (event, context) => {
             return await dbAddRecord.main(event, context);
         case 'dbCountRecord':
             return await dbCountRecord.main(event, context);
+        case 'dbGetCategory':
+            return await dbGetCategory.main(event, context);
         case 'dbGetJoinRequest':
             return await dbGetJoinRequest.main(event, context);
         case 'dbGetLocation':
