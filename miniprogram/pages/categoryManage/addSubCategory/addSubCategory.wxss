@@ -1,0 +1,9 @@
+/* pages/categoryManage/addSubCategory/addSubCategory.wxss */
+
+.weui-label{
+    width: 5em
+}
+
+.redColor {
+    color: var(--weui-RED)
+}

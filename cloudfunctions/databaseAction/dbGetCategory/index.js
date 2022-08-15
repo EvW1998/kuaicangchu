@@ -10,14 +10,12 @@ exports.main = async (event, context) => {
             .orderBy('categoryName', 'asc')
             .where({
                 warehouse_id: event.warehouseId,
-                categoryLevel: 0
-            })
+                categoryLevel: event.categoryLevel
+            })  
             .field({
                 warehouse_id: false,
                 categoryLevel: false
             })
-            .limit(event.limit)
-            .skip(event.skip)
             .get()
         }
     catch(e) {

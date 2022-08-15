@@ -11,24 +11,33 @@
         <view class="index-bd">
             <view class="kind-list">
 
-                <view class="kind-list-item">
-                    <label class="weui-cell_access">
-                        <view id="{{menu_userInfo.id}}" class="kind-list-item-hd {{menu_userInfo.open ? 'kind-list-item-hd-show' : ''}}" bindtap="kindToggle">
-                            <view class="kind-list-text">{{menu_userInfo.name}}</view>
-                            <view class="arrow_downward"></view>
-                        </view>
-                    </label>
+                <block wx:for="{{mainCategoryList}}" wx:for-item="category" wx:key="category">
+                    <view class="kind-list-item">
+                        <label class="weui-cell_access">
+                            <view id="{{category.id}}" class="kind-list-item-hd" bindtap="kindToggle">
+                                <view class="kind-list-text">{{category.name}}</view>
+                                <view class="arrow_downward"></view>
+                            </view>
+                        </label>
 
-                    <view class="kind-list-item-bd {{menu_userInfo.open ? 'kind-list-item-bd-show' : ''}}">
-                        <view class="navigator-box {{menu_userInfo.open ? 'navigator-box-show' : ''}}">
+                        <view class="kind-list-item-bd {{category.open ? 'kind-list-item-bd-show' : ''}}">
+                            <view class="navigator-box {{category.open ? 'navigator-box-show' : ''}}">
 
-                            <view class="navigator" hover-class="hover_view">
-                                <view class="navigator-text" bindtap="onAddSubCategory">新增子分类</view>
-                                <view class="navigator-arrow"></view>
+                                <block wx:for="{{subCategory[category.id]}}" wx:for-item="subcategory" wx:key="subcategory">
+                                    <view class="navigator" hover-class="hover_view">
+                                        <view class="navigator-text subCategory">{{subcategory.name}}</view>
+                                        <view class="navigator-arrow"></view>
+                                    </view>
+                                </block>
+                                
+                                <view class="navigator" hover-class="hover_view">
+                                    <view class="navigator-text weui-cell_link subCategory" bindtap="onAddSubCategory" id="{{category.id}}">新增子分类</view>
+                                    <view class="navigator-arrow"></view>
+                                </view>
                             </view>
                         </view>
                     </view>
-                </view>
+                </block>
 
                 <view class="kind-list-item">
                     <label class="weui-cell_access">

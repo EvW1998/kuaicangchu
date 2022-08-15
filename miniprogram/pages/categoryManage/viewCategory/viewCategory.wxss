@@ -153,3 +153,7 @@
     opacity: 0.9;
     background: var(--weui-BG-0);
 }
+
+.subCategory {
+    margin-left: 30rpx;
+}
