@@ -1,0 +1,9 @@
+/* pages/exportItem/exportItem.wxss */
+
+.weui-form-preview{
+    margin-bottom: 50rpx
+}
+
+.weui-btn{
+    margin-top: 50rpx
+}

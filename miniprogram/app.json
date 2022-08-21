@@ -14,7 +14,9 @@
         "pages/addLocation/addLocation",
         "pages/categoryManage/viewCategory/viewCategory",
         "pages/categoryManage/addCategory/addCategory",
-        "pages/categoryManage/addSubCategory/addSubCategory"
+        "pages/categoryManage/addSubCategory/addSubCategory",
+        "pages/importItem/importItem",
+        "pages/exportItem/exportItem"
     ],
     "window": {
         "navigationBarTextStyle": "@navigationBarTextStyle",

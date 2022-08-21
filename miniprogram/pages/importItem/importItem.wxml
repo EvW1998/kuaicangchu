@@ -1,0 +1,230 @@
+<!--pages/importItem/importItem.wxml-->
+
+<view class="page" data-weui-theme="{{theme}}">
+    <view class="weui-form">
+        <view class="weui-form__text-area">
+            <h2 class="weui-form__title">将新的物品入库</h2>
+            <view class="weui-form__desc">请输入物品信息</view>
+        </view>
+
+        <view class="weui-form__control-area">
+            <view class="weui-cells__group weui-cells__group_form">
+                <view class="weui-cells weui-cells_form">
+                    <view class="weui-cell weui-cell_active">
+                        <view class="weui-cell__hd">
+                            <view class="weui-label">物品名称</view>
+                        </view>
+                        <view class="weui-cell__bd weui-flex">
+                            <input
+                                class="weui-input"
+                                type="text"
+                                placeholder="请输入物品名称"
+                                placeholder-class="weui-input__placeholder"
+                                value="{{itemName}}"
+                                bindinput="onInput_name"
+                                maxlength="7"
+                                confirm-type="next"
+                            />
+                            <view wx:if="{{showClearBtn_name}}" aria-role="button" class="weui-btn_reset weui-btn_icon weui-btn_input-clear" bindtap="onClear_name">
+                                <i class="weui-icon-clear"></i>
+                            </view>
+                        </view>
+                    </view>
+
+                    <view class="weui-cell weui-cell_active">
+                        <view class="weui-cell__hd">
+                            <view class="weui-label">净含量</view>
+                        </view>
+                        <view class="weui-cell__bd weui-flex">
+                            <input
+                                class="weui-input"
+                                type="text"
+                                placeholder="请输入物品净含量"
+                                placeholder-class="weui-input__placeholder"
+                                value="{{itemWeight}}"
+                                bindinput="onInput_weight"
+                                confirm-type="next"
+                            />
+                            <view wx:if="{{showClearBtn_weight}}" aria-role="button" class="weui-btn_reset weui-btn_icon weui-btn_input-clear" bindtap="onClear_weight">
+                                <i class="weui-icon-clear"></i>
+                            </view>
+                        </view>
+                    </view>
+
+                    <view class="weui-cell weui-cell_active">
+                        <view class="weui-cell__hd">
+                            <view class="weui-label">数量</view>
+                        </view>
+                        <view class="weui-cell__bd weui-flex">
+                            <input
+                                class="weui-input"
+                                type="number"
+                                placeholder="请输入物品数量"
+                                placeholder-class="weui-input__placeholder"
+                                value="{{itemQuantity}}"
+                                bindinput="onInput_quantity"
+                            />
+                            <view wx:if="{{showClearBtn_quantity}}" aria-role="button" class="weui-btn_reset weui-btn_icon weui-btn_input-clear" bindtap="onClear_quantity">
+                                <i class="weui-icon-clear"></i>
+                            </view>
+                        </view>
+                    </view>
+
+                    <label class="weui-cell weui-cell_active weui-cell_switch">
+                        <view class="weui-cell__bd">是否内含小包装，且按小包装出库</view>
+                        <view class="weui-cell__ft">
+                            <view class="weui-switch-cp">
+                                <switch class="weui-switch-cp__input" checked="{{containSubPackage}}" bindchange="onContainSubPackageChange"/>
+                                <view class="weui-switch-cp__box"></view>
+                            </view>
+                        </view>
+                    </label>
+
+                    <block wx:if="{{containSubPackage}}">
+                        <view class="weui-cell weui-cell_active">
+                            <view class="weui-cell__hd">
+                                <view class="weui-label">内含包装数</view>
+                            </view>
+                            <view class="weui-cell__bd weui-flex">
+                                <input
+                                    class="weui-input"
+                                    type="number"
+                                    placeholder="请输入物品内含包装数"
+                                    placeholder-class="weui-input__placeholder"
+                                    value="{{subPackageQuantity}}"
+                                    bindinput="onInput_subQuantity"
+                                />
+                                <view wx:if="{{showClearBtn_subQuantity}}" aria-role="button" class="weui-btn_reset weui-btn_icon weui-btn_input-clear" bindtap="onClear_subQuantity">
+                                    <i class="weui-icon-clear"></i>
+                                </view>
+                            </view>
+                        </view>
+                    </block>
+
+                    <view class="weui-cell weui-cell_active weui-cell_select weui-cell_select-after">
+						<view class="weui-cell__hd">
+                            <label class="weui-label">所属分类</label>
+						</view>
+						<view class="weui-cell__bd">
+                            <picker mode="multiSelector" bindchange="bindCategoryPickerChange" bindcolumnchange="bindCategoryPickerColumnChange" value="{{categoryIndex}}" range="{{categoryArray}}">
+                                <view class="weui-select">{{categorySelected}}</view>
+                            </picker>
+						</view>
+					</view>
+
+                    <view class="weui-cell weui-cell_active">
+						<view class="weui-cell__hd">
+                            <label class="weui-label weui-link" bindtap="onAddCategory">新建分类</label>
+						</view>
+					</view>
+
+                    <view class="weui-cell weui-cell_active weui-cell_select weui-cell_select-after">
+						<view class="weui-cell__hd">
+                            <label class="weui-label">存放位置</label>
+						</view>
+						<view class="weui-cell__bd">
+                            <picker bindchange="bindLocationPickerChange" value="{{locationIndex}}" range="{{locationArray}}">
+                                <view class="weui-select">{{locationSelected}}</view>
+                            </picker>
+						</view>
+					</view>
+
+                    <view class="weui-cell weui-cell_active">
+						<view class="weui-cell__hd">
+                            <label class="weui-label weui-link" bindtap="onAddLocation">新建位置</label>
+						</view>
+
+                        <view class="weui-cell__bd" bindtap="onScanLocation">
+                            <label class="weui-link">扫一扫选择存放位置</label>
+						</view>
+					</view>
+
+                    <label class="weui-cell weui-cell_active weui-cell_switch">
+                        <view class="weui-cell__bd">是否有保质期</view>
+                        <view class="weui-cell__ft">
+                            <view class="weui-switch-cp">
+                                <switch class="weui-switch-cp__input" checked="{{expireDateEnabled}}" bindchange="onExpireDateEnabledChange"/>
+                                <view class="weui-switch-cp__box"></view>
+                            </view>
+                        </view>
+                    </label>
+
+                    <block wx:if="{{expireDateEnabled}}">
+                        <view class="weui-cell weui-cell_active weui-cell_select weui-cell_select-after">
+                            <view class="weui-cell__hd">
+                                <label class="weui-label">生产日期</label>
+                            </view>
+                            <view class="weui-cell__bd">
+                                <picker mode="date" start="2000-01-01" end="{{today}}" bindchange="bindProduceDateChange">
+                                    <block wx:if="{{expireDateFilled[0]}}">
+                                        <view class="weui-select">{{itemProduceDate}}</view>
+                                    </block>
+                                    <block wx:else>
+                                        <view class="weui-select">点击选择日期</view>
+                                    </block>
+                                </picker>
+                            </view>
+                        </view>
+
+                        <view class="weui-cell weui-cell_active weui-cell_select weui-cell_select-after">
+                            <view class="weui-cell__hd">
+                                <label class="weui-label">有效期至</label>
+                            </view>
+                            <view class="weui-cell__bd">
+                                <block wx:if="{{expireDateFilled[1]}}">
+                                    <picker mode="date" value="{{itemExpireDate}}" start="{{itemProduceDate}}" end="2099-12-31" bindchange="bindExpireDateChange">
+                                        <block wx:if="{{expireDateFilled[1]}}">
+                                            <view class="weui-select">{{itemExpireDate}}</view>
+                                        </block>
+                                        <block wx:else>
+                                            <view class="weui-select">点击选择日期</view>
+                                        </block>
+                                    </picker>
+                                </block>
+                                <block wx:else>
+                                    <picker mode="date" value="{{itemProduceDate}}" start="{{itemProduceDate}}" end="2099-12-31" bindchange="bindExpireDateChange">
+                                        <block wx:if="{{expireDateFilled[1]}}">
+                                            <view class="weui-select">{{itemExpireDate}}</view>
+                                        </block>
+                                        <block wx:else>
+                                            <view class="weui-select">点击选择日期</view>
+                                        </block>
+                                    </picker>
+                                </block>
+                                
+                            </view>
+                        </view>
+
+                        <label class="weui-cell weui-cell_active weui-cell_switch">
+                            <view class="weui-cell__bd">是否开启到期提醒</view>
+                            <view class="weui-cell__ft">
+                                <view class="weui-switch-cp">
+                                    <switch class="weui-switch-cp__input" checked="{{enableExpireDateWarning}}" bindchange="onExpireWarningEnabledChange"/>
+                                    <view class="weui-switch-cp__box"></view>
+                                </view>
+                            </view>
+                        </label>
+                    </block>
+                </view>
+            </view>
+        </view>
+
+        <view class="weui-form__opr-area">
+            <button class="weui-btn" type="primary" disabled="{{!enableSubmit}}" bindtap="onConfirm">添加新的物品</button>
+        </view>
+    </view>
+
+    <view aria-role="dialog" aria-modal="true" class="fadeIn" wx:if="{{showLocationError}}">
+        <view class="weui-mask"></view>
+        <view class="weui-dialog weui-skin_android">
+            <view class="weui-dialog__hd"><strong class="weui-dialog__title redColor">错误</strong></view>
+            <view class="weui-dialog__bd">
+                <text>未找到对应的存储位置！</text>
+                <text>\n请重新扫描。</text>
+            </view>
+            <view class="weui-dialog__ft">
+                <view aria-role="button" class="weui-dialog__btn weui-dialog__btn_primary" bindtap="closeLocationError">知道了</view>
+            </view>
+        </view>
+    </view>
+</view>

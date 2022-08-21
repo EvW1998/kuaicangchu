@@ -146,11 +146,15 @@ Page({
     },
 
     warehouse_import() {
-        console.log('import')   
+        wx.navigateTo({
+            url: '../importItem/importItem?printerConnected=' + this.data.printerConnected
+        })
     },
 
     warehouse_export() {
-        console.log('export')
+        wx.navigateTo({
+            url: '../exportItem/exportItem'
+        })
     },
 
     bluetoothPrinterChange(e) {

@@ -122,7 +122,7 @@
 
     <view class="weui-footer">
         <image src="../../images/icon_centered.png" style="width: 15px; height: 15px;"></image>
-        <view class="weui-footer__text">v0.0.1</view>
+        <view class="weui-footer__text">v0.2.0</view>
         <view class="weui-footer__text">Copyright © 2022 快仓储</view>
     </view>
 

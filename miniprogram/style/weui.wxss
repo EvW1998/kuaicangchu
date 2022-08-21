@@ -1148,6 +1148,10 @@ button.weui-form-preview__btn {
   color: var(--weui-LINK)
 }
 
+.weui-form-preview__btn_warn {
+    color: var(--weui-RED)
+  }
+
 .weui-cell_select {
   padding: 0
 }
